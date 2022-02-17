@@ -1,0 +1,491 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: main(int, char **)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at d2q9-bgk.c(1206,3) inlined into d2q9-bgk.c(191,3)
+   remark #15520: loop was not vectorized: loop with multiple exits cannot be vectorized unless it meets search loop idiom criteria   [ d2q9-bgk.c(1476,3) ]
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(1217,3) inlined into d2q9-bgk.c(191,3)
+   remark #15520: loop was not vectorized: loop with multiple exits cannot be vectorized unless it meets search loop idiom criteria   [ d2q9-bgk.c(1476,3) ]
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(1252,3) inlined into d2q9-bgk.c(191,3)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed OUTPUT dependence between cells.cells[0][ii+jj*params.params] (1260:7) and cells.cells[8][ii+jj*params.params] (1282:7)
+
+   LOOP BEGIN at d2q9-bgk.c(1254,5) inlined into d2q9-bgk.c(191,3)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed OUTPUT dependence between cells.cells[0][ii+jj*params.params] (1260:7) and cells.cells[8][ii+jj*params.params] (1282:7)
+   LOOP END
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(1288,3) inlined into d2q9-bgk.c(191,3)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at d2q9-bgk.c(1290,5) inlined into d2q9-bgk.c(191,3)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at d2q9-bgk.c(1290,5) inlined into d2q9-bgk.c(191,3)
+      <Peeled loop for vectorization>
+      LOOP END
+
+      LOOP BEGIN at d2q9-bgk.c(1290,5) inlined into d2q9-bgk.c(191,3)
+         remark #15300: LOOP WAS VECTORIZED
+      LOOP END
+
+      LOOP BEGIN at d2q9-bgk.c(1290,5) inlined into d2q9-bgk.c(191,3)
+      <Remainder loop for vectorization>
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(1306,3) inlined into d2q9-bgk.c(191,3)
+   remark #15521: loop was not vectorized: loop control variable was not identified. Explicitly compute the iteration count before executing the loop or try using canonical loop form from OpenMP specification
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(198,3)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed OUTPUT dependence between params.params (200:19) and params.params (200:19)
+
+   LOOP BEGIN at d2q9-bgk.c(299,3) inlined into d2q9-bgk.c(200,19)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed OUTPUT dependence between cells.cells[1][ii+jj*params.params] (309:7) and cells.cells[7][ii+jj*params.params] (315:7)
+   LOOP END
+
+   LOOP BEGIN at d2q9-bgk.c(609,3) inlined into d2q9-bgk.c(200,19)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed ANTI dependence between tmp_cells.tmp_cells[1][ii+jj*params.params] (618:22) and tmp_cells.tmp_cells[8][ii+jj*params.params] (632:9)
+
+      LOOP BEGIN at d2q9-bgk.c(611,5) inlined into d2q9-bgk.c(200,19)
+         remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+         remark #15346: vector dependence: assumed ANTI dependence between tmp_cells.tmp_cells[1][ii+jj*params.params] (618:22) and tmp_cells.tmp_cells[8][ii+jj*params.params] (632:9)
+      LOOP END
+   LOOP END
+
+   LOOP BEGIN at d2q9-bgk.c(209,5)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed ANTI dependence between cells.cells[i] (153:20) and cells.cells[i] (154:6)
+   LOOP END
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(1090,3) inlined into d2q9-bgk.c(241,41)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at d2q9-bgk.c(1092,5) inlined into d2q9-bgk.c(241,41)
+      remark #15301: OUTER LOOP WAS VECTORIZED
+
+      LOOP BEGIN at d2q9-bgk.c(1100,9) inlined into d2q9-bgk.c(241,41)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      LOOP END
+   LOOP END
+
+   LOOP BEGIN at d2q9-bgk.c(1092,5) inlined into d2q9-bgk.c(241,41)
+   <Remainder loop for vectorization>
+
+      LOOP BEGIN at d2q9-bgk.c(1100,9) inlined into d2q9-bgk.c(241,41)
+         remark #25460: No loop optimizations reported
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(1405,3) inlined into d2q9-bgk.c(246,3)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed OUTPUT dependence between call:fprintf(FILE *__restrict__, const char *__restrict__, ...) (1448:7) and call:fprintf(FILE *__restrict__, const char *__restrict__, ...) (1448:7)
+
+   LOOP BEGIN at d2q9-bgk.c(1407,5) inlined into d2q9-bgk.c(246,3)
+      remark #15527: loop was not vectorized: function call to fprintf(FILE *__restrict__, const char *__restrict__, ...) cannot be vectorized   [ d2q9-bgk.c(1448,7) ]
+
+      LOOP BEGIN at d2q9-bgk.c(1420,9) inlined into d2q9-bgk.c(246,3)
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(1461,3) inlined into d2q9-bgk.c(246,3)
+   remark #15527: loop was not vectorized: function call to fprintf(FILE *__restrict__, const char *__restrict__, ...) cannot be vectorized   [ d2q9-bgk.c(1463,5) ]
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(1352,17) inlined into d2q9-bgk.c(247,3)
+   remark #15527: loop was not vectorized: function call to free(void *) cannot be vectorized   [ /mnt/storage/software/languages/gcc-9.3/lib/gcc/x86_64-pc-linux-gnu/9.3.0/include/mm_malloc.h(54,3) ]
+LOOP END
+===========================================================================
+
+Begin optimization report for: collision_and_vel(const t_param, t_speed_soa, t_speed_soa, int *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at d2q9-bgk.c(868,3)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at d2q9-bgk.c(870,5)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at d2q9-bgk.c(878,9)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      LOOP END
+
+      LOOP BEGIN at d2q9-bgk.c(920,9)
+         remark #15301: MATERIALIZED LOOP WAS VECTORIZED
+      LOOP END
+
+      LOOP BEGIN at d2q9-bgk.c(947,9)
+         remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+         remark #15346: vector dependence: assumed FLOW dependence between tmp_cells.tmp_cells[kk][ii+jj*params.params] (949:11) and tmp_cells.tmp_cells[kk][ii+jj*params.params] (949:11)
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: propagate_fast(const t_param, t_speed_soa, t_speed_soa)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at d2q9-bgk.c(375,3)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed OUTPUT dependence between tmp_cells.tmp_cells[0][ii] (385:5) and tmp_cells.tmp_cells[8][ii] (393:5)
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(412,3)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed OUTPUT dependence between tmp_cells.tmp_cells[0][jj*params.params] (422:5) and tmp_cells.tmp_cells[8][ii+jj*params.params] (467:5)
+
+   LOOP BEGIN at d2q9-bgk.c(434,5)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed OUTPUT dependence between tmp_cells.tmp_cells[0][ii+jj*params.params] (444:7) and tmp_cells.tmp_cells[8][ii+jj*params.params] (452:7)
+   LOOP END
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(492,3)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed OUTPUT dependence between tmp_cells.tmp_cells[0][ii+jj*params.params] (502:7) and tmp_cells.tmp_cells[8][ii+jj*params.params] (510:7)
+LOOP END
+===========================================================================
+
+Begin optimization report for: timestep(const t_param, t_speed_soa, t_speed_soa, int *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at d2q9-bgk.c(299,3) inlined into d2q9-bgk.c(254,3)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed OUTPUT dependence between cells.cells[1][ii+jj*params.params] (309:7) and cells.cells[7][ii+jj*params.params] (315:7)
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(609,3) inlined into d2q9-bgk.c(256,3)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between tmp_cells.tmp_cells[1][ii+jj*params.params] (618:22) and tmp_cells.tmp_cells[8][ii+jj*params.params] (632:9)
+
+   LOOP BEGIN at d2q9-bgk.c(611,5) inlined into d2q9-bgk.c(256,3)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed ANTI dependence between tmp_cells.tmp_cells[1][ii+jj*params.params] (618:22) and tmp_cells.tmp_cells[8][ii+jj*params.params] (632:9)
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: accelerate_flow(const t_param, t_speed_soa, int *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at d2q9-bgk.c(299,3)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed OUTPUT dependence between *(cells.cells[1]+(ii+jj*params.params)*4) (309:7) and *(cells.cells[7]+(ii+jj*params.params)*4) (315:7)
+LOOP END
+===========================================================================
+
+Begin optimization report for: propagate(const t_param, t_speed *, t_speed *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at d2q9-bgk.c(535,5)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed FLOW dependence between tmp_cells->speeds[ii+jj*params.params][0] (546:7) and cells->speeds[x_w+y_n*params.params][8] (554:7)
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(533,3)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed FLOW dependence between tmp_cells->speeds[ii+jj*params.params][0] (546:7) and cells->speeds[x_w+y_n*params.params][8] (554:7)
+
+   LOOP BEGIN at d2q9-bgk.c(535,5)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed FLOW dependence between tmp_cells->speeds[ii+jj*params.params][0] (546:7) and cells->speeds[x_w+y_n*params.params][8] (554:7)
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: rebound_old(const t_param, t_speed *, t_speed *, int *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at d2q9-bgk.c(582,3)
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+
+   LOOP BEGIN at d2q9-bgk.c(584,5)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: rebound(const t_param, t_speed_soa, t_speed_soa, int *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at d2q9-bgk.c(609,3)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed ANTI dependence between *(tmp_cells.tmp_cells[1]+(ii+jj*params.params)*4) (618:22) and *(tmp_cells.tmp_cells[8]+(ii+jj*params.params)*4) (632:9)
+
+   LOOP BEGIN at d2q9-bgk.c(611,5)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed ANTI dependence between *(tmp_cells.tmp_cells[1]+(ii+jj*params.params)*4) (618:22) and *(tmp_cells.tmp_cells[8]+(ii+jj*params.params)*4) (632:9)
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: collision_new(const t_param, t_speed *, t_speed *, int *, int, int)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at d2q9-bgk.c(654,9)
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(696,9)
+   remark #15301: MATERIALIZED LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(723,9)
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(723,9)
+<Remainder loop for vectorization>
+LOOP END
+===========================================================================
+
+Begin optimization report for: collision_old(const t_param, t_speed *, t_speed *, int *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at d2q9-bgk.c(744,3)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at d2q9-bgk.c(746,5)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at d2q9-bgk.c(823,9)
+         remark #15300: LOOP WAS VECTORIZED
+      LOOP END
+
+      LOOP BEGIN at d2q9-bgk.c(754,9)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      LOOP END
+
+      LOOP BEGIN at d2q9-bgk.c(796,9)
+         remark #15301: MATERIALIZED LOOP WAS VECTORIZED
+      LOOP END
+
+      LOOP BEGIN at d2q9-bgk.c(823,9)
+      <Remainder loop for vectorization>
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: collision(const t_param, t_speed *__restrict__, t_speed *__restrict__, int *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at d2q9-bgk.c(981,3)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at d2q9-bgk.c(983,5)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at d2q9-bgk.c(1060,9)
+         remark #15300: LOOP WAS VECTORIZED
+      LOOP END
+
+      LOOP BEGIN at d2q9-bgk.c(991,9)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      LOOP END
+
+      LOOP BEGIN at d2q9-bgk.c(1033,9)
+         remark #15301: MATERIALIZED LOOP WAS VECTORIZED
+      LOOP END
+
+      LOOP BEGIN at d2q9-bgk.c(1060,9)
+      <Remainder loop for vectorization>
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: av_velocity(const t_param, t_speed_soa, int *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at d2q9-bgk.c(1090,3)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at d2q9-bgk.c(1092,5)
+      remark #15301: OUTER LOOP WAS VECTORIZED
+
+      LOOP BEGIN at d2q9-bgk.c(1100,9)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      LOOP END
+   LOOP END
+
+   LOOP BEGIN at d2q9-bgk.c(1092,5)
+   <Remainder loop for vectorization>
+
+      LOOP BEGIN at d2q9-bgk.c(1100,9)
+         remark #25460: No loop optimizations reported
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: finalise(const t_param *, t_speed_soa *, t_speed_soa *, int **, float **)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at d2q9-bgk.c(1352,17)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed FLOW dependence between call:free(void *) (54:3) and tmp_cells_ptr->speeds (54:3)
+LOOP END
+===========================================================================
+
+Begin optimization report for: calc_reynolds(const t_param, t_speed_soa, int *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at d2q9-bgk.c(1090,3) inlined into d2q9-bgk.c(1367,10)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at d2q9-bgk.c(1092,5) inlined into d2q9-bgk.c(1367,10)
+      remark #15301: OUTER LOOP WAS VECTORIZED
+
+      LOOP BEGIN at d2q9-bgk.c(1100,9) inlined into d2q9-bgk.c(1367,10)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      LOOP END
+   LOOP END
+
+   LOOP BEGIN at d2q9-bgk.c(1092,5) inlined into d2q9-bgk.c(1367,10)
+   <Remainder loop for vectorization>
+
+      LOOP BEGIN at d2q9-bgk.c(1100,9) inlined into d2q9-bgk.c(1367,10)
+         remark #25460: No loop optimizations reported
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: total_density(const t_param, t_speed *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at d2q9-bgk.c(1374,3)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at d2q9-bgk.c(1376,5)
+   <Peeled loop for vectorization>
+   LOOP END
+
+   LOOP BEGIN at d2q9-bgk.c(1376,5)
+      remark #15300: LOOP WAS VECTORIZED
+   LOOP END
+
+   LOOP BEGIN at d2q9-bgk.c(1376,5)
+   <Remainder loop for vectorization>
+      remark #15335: remainder loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: write_values(const t_param, t_speed_soa, int *, float *)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at d2q9-bgk.c(1405,3)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed OUTPUT dependence between call:fprintf(FILE *__restrict__, const char *__restrict__, ...) (1448:7) and call:fprintf(FILE *__restrict__, const char *__restrict__, ...) (1448:7)
+
+   LOOP BEGIN at d2q9-bgk.c(1407,5)
+      remark #15527: loop was not vectorized: function call to fprintf(FILE *__restrict__, const char *__restrict__, ...) cannot be vectorized   [ d2q9-bgk.c(1448,7) ]
+
+      LOOP BEGIN at d2q9-bgk.c(1420,9)
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(1461,3)
+   remark #15527: loop was not vectorized: function call to fprintf(FILE *__restrict__, const char *__restrict__, ...) cannot be vectorized   [ d2q9-bgk.c(1463,5) ]
+LOOP END
+===========================================================================
+
+Begin optimization report for: initialise(const char *, const char *, t_param *, t_speed_soa *, t_speed_soa *, int **, float **)
+
+    Report from: Vector optimizations [vec]
+
+
+LOOP BEGIN at d2q9-bgk.c(1206,3)
+   remark #15520: loop was not vectorized: loop with multiple exits cannot be vectorized unless it meets search loop idiom criteria   [ d2q9-bgk.c(1476,3) ]
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(1217,3)
+   remark #15520: loop was not vectorized: loop with multiple exits cannot be vectorized unless it meets search loop idiom criteria   [ d2q9-bgk.c(1476,3) ]
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(1252,3)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed OUTPUT dependence between cells_ptr->speeds[0][ii+jj*params->nx] (1260:7) and cells_ptr->speeds[8][ii+jj*params->nx] (1282:7)
+
+   LOOP BEGIN at d2q9-bgk.c(1254,5)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed OUTPUT dependence between cells_ptr->speeds[0][ii+jj*params->nx] (1260:7) and cells_ptr->speeds[8][ii+jj*params->nx] (1282:7)
+   LOOP END
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(1288,3)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at d2q9-bgk.c(1290,5)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at d2q9-bgk.c(1290,5)
+      <Peeled loop for vectorization>
+      LOOP END
+
+      LOOP BEGIN at d2q9-bgk.c(1290,5)
+         remark #15300: LOOP WAS VECTORIZED
+      LOOP END
+
+      LOOP BEGIN at d2q9-bgk.c(1290,5)
+      <Remainder loop for vectorization>
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at d2q9-bgk.c(1306,3)
+   remark #15521: loop was not vectorized: loop control variable was not identified. Explicitly compute the iteration count before executing the loop or try using canonical loop form from OpenMP specification
+LOOP END
+===========================================================================
