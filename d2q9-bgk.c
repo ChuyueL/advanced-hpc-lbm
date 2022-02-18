@@ -109,25 +109,25 @@ int initialise(const char* paramfile, const char* obstaclefile,
 ** timestep calls, in order, the functions:
 ** accelerate_flow(), propagate(), rebound() & collision()
 */
-float timestep(const t_param params, t_speed_soa cells, t_speed_soa tmp_cells, int* obstacles);
+float timestep(const t_param params, t_speed_soa* cells, t_speed_soa* tmp_cells, int* obstacles);
 float timestep_new(const t_param params, t_speed* cells, t_speed* tmp_cells, int* obstacles, int tt);
 int timestep_old(const t_param params, t_speed* cells, t_speed* tmp_cells, int* obstacles);
 
 
-int accelerate_flow(const t_param params, t_speed_soa cells, int* obstacles);
+int accelerate_flow(const t_param params, t_speed_soa* restrict cells, int* obstacles);
 int propagate(const t_param params, t_speed* cells, t_speed* tmp_cells);
 int propagate_new(const t_param params, t_speed* cells, t_speed* tmp_cells, int ii, int jj);
-int propagate_fast(const t_param params, t_speed_soa cells, t_speed_soa tmp_cells);
+int propagate_fast(const t_param params, t_speed_soa* restrict cells, t_speed_soa* restrict tmp_cells);
 
 
-int rebound(const t_param params, t_speed_soa cells, t_speed_soa tmp_cells, int* obstacles);
+int rebound(const t_param params, t_speed_soa* restrict cells, t_speed_soa* restrict tmp_cells, int* obstacles);
 int rebound_new(const t_param params, t_speed* restrict cells, t_speed* restrict tmp_cells, int* obstacles, int ii, int jj);
 int rebound_old(const t_param params, t_speed* cells, t_speed* tmp_cells, int* obstacles);
 
 int collision(const t_param params, t_speed* restrict cells, t_speed* restrict tmp_cells, int* obstacles);
 int collision_new(const t_param params, t_speed* cells, t_speed* tmp_cells, int* obstacles, int ii, int jj);
 int collision_old(const t_param params, t_speed* cells, t_speed* tmp_cells, int* obstacles);
-float collision_and_vel(const t_param params, t_speed_soa cells, t_speed_soa tmp_cells, int* obstacles);
+float collision_and_vel(const t_param params, t_speed_soa* restrict cells, t_speed_soa* restrict tmp_cells, int* obstacles);
 
 int write_values(const t_param params, t_speed_soa cells, int* obstacles, float* av_vels);
 
@@ -190,6 +190,9 @@ int main(int argc, char* argv[])
   init_tic=tot_tic;
   initialise(paramfile, obstaclefile, &params, &cells, &tmp_cells, &obstacles, &av_vels);
 
+  t_speed_soa* cells_ptr = &cells;
+  t_speed_soa* tmp_cells_ptr = &tmp_cells;
+
   /* Init time stops here, compute time starts*/
   gettimeofday(&timstr, NULL);
   init_toc = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
@@ -197,7 +200,7 @@ int main(int argc, char* argv[])
 
   for (int tt = 0; tt < params.maxIters; tt++)
   {
-    av_vels[tt] = timestep(params, cells, tmp_cells, obstacles);
+    av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
     //timestep_old(params, cells, tmp_cells, obstacles);
 
     //swap cells and tmp_cells
@@ -206,10 +209,10 @@ int main(int argc, char* argv[])
     *cells = *tmp_cells;
     *tmp_cells = *temp; */
 
-    for (size_t i = 0; i < 9; i++)
+/*     for (size_t i = 0; i < 9; i++)
     {
-      swap(&cells.speeds[i], &tmp_cells.speeds[i]);
-    }
+      swap(&cells_ptr->speeds[i], &tmp_cells_ptr->speeds[i]);
+    } */
     
     //swap(&cells, &tmp_cells);
     //printf("Post swap: cells %p  tmp_cells %p\n", (void*)cells, (void*)tmp_cells);
@@ -244,12 +247,12 @@ int main(int argc, char* argv[])
   printf("Elapsed Collate time:\t\t\t%.6lf (s)\n", col_toc  - col_tic);
   printf("Elapsed Total time:\t\t\t%.6lf (s)\n",   tot_toc  - tot_tic);
   write_values(params, cells, obstacles, av_vels);
-  finalise(&params, &cells, &tmp_cells, &obstacles, &av_vels);
+  finalise(&params, cells_ptr, tmp_cells_ptr, &obstacles, &av_vels);
 
   return EXIT_SUCCESS;
 }
 
-float timestep(const t_param params, t_speed_soa cells, t_speed_soa tmp_cells, int* obstacles)
+float timestep(const t_param params, t_speed_soa* cells, t_speed_soa* tmp_cells, int* obstacles)
 {
   accelerate_flow(params, cells, obstacles);
   propagate_fast(params, cells, tmp_cells);
@@ -267,8 +270,9 @@ float timestep(const t_param params, t_speed_soa cells, t_speed_soa tmp_cells, i
   return EXIT_SUCCESS;
 } */
 
-int accelerate_flow(const t_param params, t_speed_soa cells, int* obstacles)
+int accelerate_flow(const t_param params, t_speed_soa* restrict cells, int* obstacles)
 {
+  
   /* compute weighting factors */
   float w1 = params.density * params.accel / 9.f;
   float w2 = params.density * params.accel / 36.f;
@@ -301,18 +305,18 @@ int accelerate_flow(const t_param params, t_speed_soa cells, int* obstacles)
     /* if the cell is not occupied and
     ** we don't send a negative density */
     if (!obstacles[ii + jj*params.nx]
-        && (cells.speeds[3][ii + jj*params.nx] - w1) > 0.f
-        && (cells.speeds[6][ii + jj*params.nx] - w2) > 0.f
-        && (cells.speeds[7][ii + jj*params.nx] - w2) > 0.f)
+        && (cells->speeds[3][ii + jj*params.nx] - w1) > 0.f
+        && (cells->speeds[6][ii + jj*params.nx] - w2) > 0.f
+        && (cells->speeds[7][ii + jj*params.nx] - w2) > 0.f)
     {
       /* increase 'east-side' densities */
-      cells.speeds[1][ii + jj*params.nx] += w1;
-      cells.speeds[5][ii + jj*params.nx] += w2;
-      cells.speeds[8][ii + jj*params.nx] += w2;
+      cells->speeds[1][ii + jj*params.nx] += w1;
+      cells->speeds[5][ii + jj*params.nx] += w2;
+      cells->speeds[8][ii + jj*params.nx] += w2;
       /* decrease 'west-side' densities */
-      cells.speeds[3][ii + jj*params.nx] -= w1;
-      cells.speeds[6][ii + jj*params.nx] -= w2;
-      cells.speeds[7][ii + jj*params.nx] -= w2;
+      cells->speeds[3][ii + jj*params.nx] -= w1;
+      cells->speeds[6][ii + jj*params.nx] -= w2;
+      cells->speeds[7][ii + jj*params.nx] -= w2;
     }
   }
 
@@ -343,11 +347,11 @@ int propagate_new(const t_param params, t_speed* cells, t_speed* tmp_cells, int 
 }
 
 
-int propagate_fast(const t_param params, t_speed_soa cells, t_speed_soa tmp_cells) {
+int propagate_fast(const t_param params, t_speed_soa* restrict cells, t_speed_soa* restrict tmp_cells) {
   for (size_t i = 0; i < 9; i++)
   {
-    __assume_aligned(cells.speeds[i], 64);
-    __assume_aligned(tmp_cells.speeds[i], 64);
+    __assume_aligned(cells->speeds[i], 64);
+    __assume_aligned(tmp_cells->speeds[i], 64);
   }
   
   //Case where jj = 0
@@ -360,15 +364,15 @@ int propagate_fast(const t_param params, t_speed_soa cells, t_speed_soa tmp_cell
   int x_e = ii + 1;
   int x_w = ii + params.nx - 1;
 
-  tmp_cells.speeds[0][ii + jj*params.nx] = cells.speeds[0][ii + jj*params.nx]; /* central cell, no movement */
-  tmp_cells.speeds[1][ii + jj*params.nx] = cells.speeds[1][x_w + jj*params.nx]; /* east */
-  tmp_cells.speeds[2][ii + jj*params.nx] = cells.speeds[2][ii + y_s*params.nx]; /* north */
-  tmp_cells.speeds[3][ii + jj*params.nx] = cells.speeds[3][x_e + jj*params.nx]; /* west */
-  tmp_cells.speeds[4][ii + jj*params.nx] = cells.speeds[4][ii + y_n*params.nx]; /* south */
-  tmp_cells.speeds[5][ii + jj*params.nx] = cells.speeds[5][x_w + y_s*params.nx]; /* north-east */
-  tmp_cells.speeds[6][ii + jj*params.nx] = cells.speeds[6][x_e + y_s*params.nx]; /* north-west */
-  tmp_cells.speeds[7][ii + jj*params.nx] = cells.speeds[7][x_e + y_n*params.nx]; /* south-west */
-  tmp_cells.speeds[8][ii + jj*params.nx] = cells.speeds[8][x_w + y_n*params.nx]; /* south-east */
+  tmp_cells->speeds[0][ii + jj*params.nx] = cells->speeds[0][ii + jj*params.nx]; /* central cell, no movement */
+  tmp_cells->speeds[1][ii + jj*params.nx] = cells->speeds[1][x_w + jj*params.nx]; /* east */
+  tmp_cells->speeds[2][ii + jj*params.nx] = cells->speeds[2][ii + y_s*params.nx]; /* north */
+  tmp_cells->speeds[3][ii + jj*params.nx] = cells->speeds[3][x_e + jj*params.nx]; /* west */
+  tmp_cells->speeds[4][ii + jj*params.nx] = cells->speeds[4][ii + y_n*params.nx]; /* south */
+  tmp_cells->speeds[5][ii + jj*params.nx] = cells->speeds[5][x_w + y_s*params.nx]; /* north-east */
+  tmp_cells->speeds[6][ii + jj*params.nx] = cells->speeds[6][x_e + y_s*params.nx]; /* north-west */
+  tmp_cells->speeds[7][ii + jj*params.nx] = cells->speeds[7][x_e + y_n*params.nx]; /* south-west */
+  tmp_cells->speeds[8][ii + jj*params.nx] = cells->speeds[8][x_w + y_n*params.nx]; /* south-east */
 
 
     //Case where i > 0 and i < params.nx - 1
@@ -382,31 +386,30 @@ int propagate_fast(const t_param params, t_speed_soa cells, t_speed_soa tmp_cell
     /* propagate densities from neighbouring cells, following
     ** appropriate directions of travel and writing into
     ** scratch space grid */
-    tmp_cells.speeds[0][ii + jj*params.nx] = cells.speeds[0][ii + jj*params.nx]; /* central cell, no movement */
-    tmp_cells.speeds[1][ii + jj*params.nx] = cells.speeds[1][x_w + jj*params.nx]; /* east */
-    tmp_cells.speeds[2][ii + jj*params.nx] = cells.speeds[2][ii + y_s*params.nx]; /* north */
-    tmp_cells.speeds[3][ii + jj*params.nx] = cells.speeds[3][x_e + jj*params.nx]; /* west */
-    tmp_cells.speeds[4][ii + jj*params.nx] = cells.speeds[4][ii + y_n*params.nx]; /* south */
-    tmp_cells.speeds[5][ii + jj*params.nx] = cells.speeds[5][x_w + y_s*params.nx]; /* north-east */
-    tmp_cells.speeds[6][ii + jj*params.nx] = cells.speeds[6][x_e + y_s*params.nx]; /* north-west */
-    tmp_cells.speeds[7][ii + jj*params.nx] = cells.speeds[7][x_e + y_n*params.nx]; /* south-west */
-    tmp_cells.speeds[8][ii + jj*params.nx] = cells.speeds[8][x_w + y_n*params.nx]; /* south-east */
+    tmp_cells->speeds[0][ii + jj*params.nx] = cells->speeds[0][ii + jj*params.nx]; /* central cell, no movement */
+    tmp_cells->speeds[1][ii + jj*params.nx] = cells->speeds[1][x_w + jj*params.nx]; /* east */
+    tmp_cells->speeds[2][ii + jj*params.nx] = cells->speeds[2][ii + y_s*params.nx]; /* north */
+    tmp_cells->speeds[3][ii + jj*params.nx] = cells->speeds[3][x_e + jj*params.nx]; /* west */
+    tmp_cells->speeds[4][ii + jj*params.nx] = cells->speeds[4][ii + y_n*params.nx]; /* south */
+    tmp_cells->speeds[5][ii + jj*params.nx] = cells->speeds[5][x_w + y_s*params.nx]; /* north-east */
+    tmp_cells->speeds[6][ii + jj*params.nx] = cells->speeds[6][x_e + y_s*params.nx]; /* north-west */
+    tmp_cells->speeds[7][ii + jj*params.nx] = cells->speeds[7][x_e + y_n*params.nx]; /* south-west */
+    tmp_cells->speeds[8][ii + jj*params.nx] = cells->speeds[8][x_w + y_n*params.nx]; /* south-east */
   }
 
   ii = params.nx - 1;
   y_n = jj + 1;
   x_e = 0;
   x_w = (ii - 1);
-  tmp_cells.speeds[0][ii + jj*params.nx] = cells.speeds[0][ii + jj*params.nx]; /* central cell, no movement */
-  tmp_cells.speeds[1][ii + jj*params.nx] = cells.speeds[1][x_w + jj*params.nx]; /* east */
-  tmp_cells.speeds[2][ii + jj*params.nx] = cells.speeds[2][ii + y_s*params.nx]; /* north */
-  tmp_cells.speeds[3][ii + jj*params.nx] = cells.speeds[3][x_e + jj*params.nx]; /* west */
-  tmp_cells.speeds[4][ii + jj*params.nx] = cells.speeds[4][ii + y_n*params.nx]; /* south */
-  tmp_cells.speeds[5][ii + jj*params.nx] = cells.speeds[5][x_w + y_s*params.nx]; /* north-east */
-  tmp_cells.speeds[6][ii + jj*params.nx] = cells.speeds[6][x_e + y_s*params.nx]; /* north-west */
-  tmp_cells.speeds[7][ii + jj*params.nx] = cells.speeds[7][x_e + y_n*params.nx]; /* south-west */
-  tmp_cells.speeds[8][ii + jj*params.nx] = cells.speeds[8][x_w + y_n*params.nx]; /* south-east */
-
+  tmp_cells->speeds[0][ii + jj*params.nx] = cells->speeds[0][ii + jj*params.nx]; /* central cell, no movement */
+  tmp_cells->speeds[1][ii + jj*params.nx] = cells->speeds[1][x_w + jj*params.nx]; /* east */
+  tmp_cells->speeds[2][ii + jj*params.nx] = cells->speeds[2][ii + y_s*params.nx]; /* north */
+  tmp_cells->speeds[3][ii + jj*params.nx] = cells->speeds[3][x_e + jj*params.nx]; /* west */
+  tmp_cells->speeds[4][ii + jj*params.nx] = cells->speeds[4][ii + y_n*params.nx]; /* south */
+  tmp_cells->speeds[5][ii + jj*params.nx] = cells->speeds[5][x_w + y_s*params.nx]; /* north-east */
+  tmp_cells->speeds[6][ii + jj*params.nx] = cells->speeds[6][x_e + y_s*params.nx]; /* north-west */
+  tmp_cells->speeds[7][ii + jj*params.nx] = cells->speeds[7][x_e + y_n*params.nx]; /* south-west */
+  tmp_cells->speeds[8][ii + jj*params.nx] = cells->speeds[8][x_w + y_n*params.nx]; /* south-east */
 
   
   for (int jj = 1; jj < params.ny - 1; jj++)
@@ -419,15 +422,15 @@ int propagate_fast(const t_param params, t_speed_soa cells, t_speed_soa tmp_cell
     int x_e = ii + 1;
     int x_w = ii + params.nx - 1;
 
-    tmp_cells.speeds[0][ii + jj*params.nx] = cells.speeds[0][ii + jj*params.nx]; /* central cell, no movement */
-    tmp_cells.speeds[1][ii + jj*params.nx] = cells.speeds[1][x_w + jj*params.nx]; /* east */
-    tmp_cells.speeds[2][ii + jj*params.nx] = cells.speeds[2][ii + y_s*params.nx]; /* north */
-    tmp_cells.speeds[3][ii + jj*params.nx] = cells.speeds[3][x_e + jj*params.nx]; /* west */
-    tmp_cells.speeds[4][ii + jj*params.nx] = cells.speeds[4][ii + y_n*params.nx]; /* south */
-    tmp_cells.speeds[5][ii + jj*params.nx] = cells.speeds[5][x_w + y_s*params.nx]; /* north-east */
-    tmp_cells.speeds[6][ii + jj*params.nx] = cells.speeds[6][x_e + y_s*params.nx]; /* north-west */
-    tmp_cells.speeds[7][ii + jj*params.nx] = cells.speeds[7][x_e + y_n*params.nx]; /* south-west */
-    tmp_cells.speeds[8][ii + jj*params.nx] = cells.speeds[8][x_w + y_n*params.nx]; /* south-east */
+    tmp_cells->speeds[0][ii + jj*params.nx] = cells->speeds[0][ii + jj*params.nx]; /* central cell, no movement */
+    tmp_cells->speeds[1][ii + jj*params.nx] = cells->speeds[1][x_w + jj*params.nx]; /* east */
+    tmp_cells->speeds[2][ii + jj*params.nx] = cells->speeds[2][ii + y_s*params.nx]; /* north */
+    tmp_cells->speeds[3][ii + jj*params.nx] = cells->speeds[3][x_e + jj*params.nx]; /* west */
+    tmp_cells->speeds[4][ii + jj*params.nx] = cells->speeds[4][ii + y_n*params.nx]; /* south */
+    tmp_cells->speeds[5][ii + jj*params.nx] = cells->speeds[5][x_w + y_s*params.nx]; /* north-east */
+    tmp_cells->speeds[6][ii + jj*params.nx] = cells->speeds[6][x_e + y_s*params.nx]; /* north-west */
+    tmp_cells->speeds[7][ii + jj*params.nx] = cells->speeds[7][x_e + y_n*params.nx]; /* south-west */
+    tmp_cells->speeds[8][ii + jj*params.nx] = cells->speeds[8][x_w + y_n*params.nx]; /* south-east */
 
 
     //Case where i > 0 and i < params.nx - 1
@@ -441,30 +444,30 @@ int propagate_fast(const t_param params, t_speed_soa cells, t_speed_soa tmp_cell
       /* propagate densities from neighbouring cells, following
       ** appropriate directions of travel and writing into
       ** scratch space grid */
-      tmp_cells.speeds[0][ii + jj*params.nx] = cells.speeds[0][ii + jj*params.nx]; /* central cell, no movement */
-      tmp_cells.speeds[1][ii + jj*params.nx] = cells.speeds[1][x_w + jj*params.nx]; /* east */
-      tmp_cells.speeds[2][ii + jj*params.nx] = cells.speeds[2][ii + y_s*params.nx]; /* north */
-      tmp_cells.speeds[3][ii + jj*params.nx] = cells.speeds[3][x_e + jj*params.nx]; /* west */
-      tmp_cells.speeds[4][ii + jj*params.nx] = cells.speeds[4][ii + y_n*params.nx]; /* south */
-      tmp_cells.speeds[5][ii + jj*params.nx] = cells.speeds[5][x_w + y_s*params.nx]; /* north-east */
-      tmp_cells.speeds[6][ii + jj*params.nx] = cells.speeds[6][x_e + y_s*params.nx]; /* north-west */
-      tmp_cells.speeds[7][ii + jj*params.nx] = cells.speeds[7][x_e + y_n*params.nx]; /* south-west */
-      tmp_cells.speeds[8][ii + jj*params.nx] = cells.speeds[8][x_w + y_n*params.nx]; /* south-east */
+      tmp_cells->speeds[0][ii + jj*params.nx] = cells->speeds[0][ii + jj*params.nx]; /* central cell, no movement */
+      tmp_cells->speeds[1][ii + jj*params.nx] = cells->speeds[1][x_w + jj*params.nx]; /* east */
+      tmp_cells->speeds[2][ii + jj*params.nx] = cells->speeds[2][ii + y_s*params.nx]; /* north */
+      tmp_cells->speeds[3][ii + jj*params.nx] = cells->speeds[3][x_e + jj*params.nx]; /* west */
+      tmp_cells->speeds[4][ii + jj*params.nx] = cells->speeds[4][ii + y_n*params.nx]; /* south */
+      tmp_cells->speeds[5][ii + jj*params.nx] = cells->speeds[5][x_w + y_s*params.nx]; /* north-east */
+      tmp_cells->speeds[6][ii + jj*params.nx] = cells->speeds[6][x_e + y_s*params.nx]; /* north-west */
+      tmp_cells->speeds[7][ii + jj*params.nx] = cells->speeds[7][x_e + y_n*params.nx]; /* south-west */
+      tmp_cells->speeds[8][ii + jj*params.nx] = cells->speeds[8][x_w + y_n*params.nx]; /* south-east */
     }
 
     ii = params.nx - 1;
     y_n = jj + 1;
     x_e = 0;
     x_w = ii - 1;
-    tmp_cells.speeds[0][ii + jj*params.nx] = cells.speeds[0][ii + jj*params.nx]; /* central cell, no movement */
-    tmp_cells.speeds[1][ii + jj*params.nx] = cells.speeds[1][x_w + jj*params.nx]; /* east */
-    tmp_cells.speeds[2][ii + jj*params.nx] = cells.speeds[2][ii + y_s*params.nx]; /* north */
-    tmp_cells.speeds[3][ii + jj*params.nx] = cells.speeds[3][x_e + jj*params.nx]; /* west */
-    tmp_cells.speeds[4][ii + jj*params.nx] = cells.speeds[4][ii + y_n*params.nx]; /* south */
-    tmp_cells.speeds[5][ii + jj*params.nx] = cells.speeds[5][x_w + y_s*params.nx]; /* north-east */
-    tmp_cells.speeds[6][ii + jj*params.nx] = cells.speeds[6][x_e + y_s*params.nx]; /* north-west */
-    tmp_cells.speeds[7][ii + jj*params.nx] = cells.speeds[7][x_e + y_n*params.nx]; /* south-west */
-    tmp_cells.speeds[8][ii + jj*params.nx] = cells.speeds[8][x_w + y_n*params.nx]; /* south-east */
+    tmp_cells->speeds[0][ii + jj*params.nx] = cells->speeds[0][ii + jj*params.nx]; /* central cell, no movement */
+    tmp_cells->speeds[1][ii + jj*params.nx] = cells->speeds[1][x_w + jj*params.nx]; /* east */
+    tmp_cells->speeds[2][ii + jj*params.nx] = cells->speeds[2][ii + y_s*params.nx]; /* north */
+    tmp_cells->speeds[3][ii + jj*params.nx] = cells->speeds[3][x_e + jj*params.nx]; /* west */
+    tmp_cells->speeds[4][ii + jj*params.nx] = cells->speeds[4][ii + y_n*params.nx]; /* south */
+    tmp_cells->speeds[5][ii + jj*params.nx] = cells->speeds[5][x_w + y_s*params.nx]; /* north-east */
+    tmp_cells->speeds[6][ii + jj*params.nx] = cells->speeds[6][x_e + y_s*params.nx]; /* north-west */
+    tmp_cells->speeds[7][ii + jj*params.nx] = cells->speeds[7][x_e + y_n*params.nx]; /* south-west */
+    tmp_cells->speeds[8][ii + jj*params.nx] = cells->speeds[8][x_w + y_n*params.nx]; /* south-east */
   
   }
 
@@ -479,15 +482,15 @@ int propagate_fast(const t_param params, t_speed_soa cells, t_speed_soa tmp_cell
   x_e = ii + 1;
   x_w = ii + params.nx - 1;
 
-  tmp_cells.speeds[0][ii + jj*params.nx] = cells.speeds[0][ii + jj*params.nx]; /* central cell, no movement */
-  tmp_cells.speeds[1][ii + jj*params.nx] = cells.speeds[1][x_w + jj*params.nx]; /* east */
-  tmp_cells.speeds[2][ii + jj*params.nx] = cells.speeds[2][ii + y_s*params.nx]; /* north */
-  tmp_cells.speeds[3][ii + jj*params.nx] = cells.speeds[3][x_e + jj*params.nx]; /* west */
-  tmp_cells.speeds[4][ii + jj*params.nx] = cells.speeds[4][ii + y_n*params.nx]; /* south */
-  tmp_cells.speeds[5][ii + jj*params.nx] = cells.speeds[5][x_w + y_s*params.nx]; /* north-east */
-  tmp_cells.speeds[6][ii + jj*params.nx] = cells.speeds[6][x_e + y_s*params.nx]; /* north-west */
-  tmp_cells.speeds[7][ii + jj*params.nx] = cells.speeds[7][x_e + y_n*params.nx]; /* south-west */
-  tmp_cells.speeds[8][ii + jj*params.nx] = cells.speeds[8][x_w + y_n*params.nx]; /* south-east */
+  tmp_cells->speeds[0][ii + jj*params.nx] = cells->speeds[0][ii + jj*params.nx]; /* central cell, no movement */
+  tmp_cells->speeds[1][ii + jj*params.nx] = cells->speeds[1][x_w + jj*params.nx]; /* east */
+  tmp_cells->speeds[2][ii + jj*params.nx] = cells->speeds[2][ii + y_s*params.nx]; /* north */
+  tmp_cells->speeds[3][ii + jj*params.nx] = cells->speeds[3][x_e + jj*params.nx]; /* west */
+  tmp_cells->speeds[4][ii + jj*params.nx] = cells->speeds[4][ii + y_n*params.nx]; /* south */
+  tmp_cells->speeds[5][ii + jj*params.nx] = cells->speeds[5][x_w + y_s*params.nx]; /* north-east */
+  tmp_cells->speeds[6][ii + jj*params.nx] = cells->speeds[6][x_e + y_s*params.nx]; /* north-west */
+  tmp_cells->speeds[7][ii + jj*params.nx] = cells->speeds[7][x_e + y_n*params.nx]; /* south-west */
+  tmp_cells->speeds[8][ii + jj*params.nx] = cells->speeds[8][x_w + y_n*params.nx]; /* south-east */
 
   for (int ii = 1; ii < params.nx - 1; ii++)
     {
@@ -499,30 +502,30 @@ int propagate_fast(const t_param params, t_speed_soa cells, t_speed_soa tmp_cell
       /* propagate densities from neighbouring cells, following
       ** appropriate directions of travel and writing into
       ** scratch space grid */
-      tmp_cells.speeds[0][ii + jj*params.nx] = cells.speeds[0][ii + jj*params.nx]; /* central cell, no movement */
-      tmp_cells.speeds[1][ii + jj*params.nx] = cells.speeds[1][x_w + jj*params.nx]; /* east */
-      tmp_cells.speeds[2][ii + jj*params.nx] = cells.speeds[2][ii + y_s*params.nx]; /* north */
-      tmp_cells.speeds[3][ii + jj*params.nx] = cells.speeds[3][x_e + jj*params.nx]; /* west */
-      tmp_cells.speeds[4][ii + jj*params.nx] = cells.speeds[4][ii + y_n*params.nx]; /* south */
-      tmp_cells.speeds[5][ii + jj*params.nx] = cells.speeds[5][x_w + y_s*params.nx]; /* north-east */
-      tmp_cells.speeds[6][ii + jj*params.nx] = cells.speeds[6][x_e + y_s*params.nx]; /* north-west */
-      tmp_cells.speeds[7][ii + jj*params.nx] = cells.speeds[7][x_e + y_n*params.nx]; /* south-west */
-      tmp_cells.speeds[8][ii + jj*params.nx] = cells.speeds[8][x_w + y_n*params.nx]; /* south-east */
+      tmp_cells->speeds[0][ii + jj*params.nx] = cells->speeds[0][ii + jj*params.nx]; /* central cell, no movement */
+      tmp_cells->speeds[1][ii + jj*params.nx] = cells->speeds[1][x_w + jj*params.nx]; /* east */
+      tmp_cells->speeds[2][ii + jj*params.nx] = cells->speeds[2][ii + y_s*params.nx]; /* north */
+      tmp_cells->speeds[3][ii + jj*params.nx] = cells->speeds[3][x_e + jj*params.nx]; /* west */
+      tmp_cells->speeds[4][ii + jj*params.nx] = cells->speeds[4][ii + y_n*params.nx]; /* south */
+      tmp_cells->speeds[5][ii + jj*params.nx] = cells->speeds[5][x_w + y_s*params.nx]; /* north-east */
+      tmp_cells->speeds[6][ii + jj*params.nx] = cells->speeds[6][x_e + y_s*params.nx]; /* north-west */
+      tmp_cells->speeds[7][ii + jj*params.nx] = cells->speeds[7][x_e + y_n*params.nx]; /* south-west */
+      tmp_cells->speeds[8][ii + jj*params.nx] = cells->speeds[8][x_w + y_n*params.nx]; /* south-east */
     }
 
     ii = params.nx - 1;
     y_n = jj + 1;
     x_e = 0;
     x_w = ii - 1;
-    tmp_cells.speeds[0][ii + jj*params.nx] = cells.speeds[0][ii + jj*params.nx]; /* central cell, no movement */
-    tmp_cells.speeds[1][ii + jj*params.nx] = cells.speeds[1][x_w + jj*params.nx]; /* east */
-    tmp_cells.speeds[2][ii + jj*params.nx] = cells.speeds[2][ii + y_s*params.nx]; /* north */
-    tmp_cells.speeds[3][ii + jj*params.nx] = cells.speeds[3][x_e + jj*params.nx]; /* west */
-    tmp_cells.speeds[4][ii + jj*params.nx] = cells.speeds[4][ii + y_n*params.nx]; /* south */
-    tmp_cells.speeds[5][ii + jj*params.nx] = cells.speeds[5][x_w + y_s*params.nx]; /* north-east */
-    tmp_cells.speeds[6][ii + jj*params.nx] = cells.speeds[6][x_e + y_s*params.nx]; /* north-west */
-    tmp_cells.speeds[7][ii + jj*params.nx] = cells.speeds[7][x_e + y_n*params.nx]; /* south-west */
-    tmp_cells.speeds[8][ii + jj*params.nx] = cells.speeds[8][x_w + y_n*params.nx]; /* south-east */
+    tmp_cells->speeds[0][ii + jj*params.nx] = cells->speeds[0][ii + jj*params.nx]; /* central cell, no movement */
+    tmp_cells->speeds[1][ii + jj*params.nx] = cells->speeds[1][x_w + jj*params.nx]; /* east */
+    tmp_cells->speeds[2][ii + jj*params.nx] = cells->speeds[2][ii + y_s*params.nx]; /* north */
+    tmp_cells->speeds[3][ii + jj*params.nx] = cells->speeds[3][x_e + jj*params.nx]; /* west */
+    tmp_cells->speeds[4][ii + jj*params.nx] = cells->speeds[4][ii + y_n*params.nx]; /* south */
+    tmp_cells->speeds[5][ii + jj*params.nx] = cells->speeds[5][x_w + y_s*params.nx]; /* north-east */
+    tmp_cells->speeds[6][ii + jj*params.nx] = cells->speeds[6][x_e + y_s*params.nx]; /* north-west */
+    tmp_cells->speeds[7][ii + jj*params.nx] = cells->speeds[7][x_e + y_n*params.nx]; /* south-west */
+    tmp_cells->speeds[8][ii + jj*params.nx] = cells->speeds[8][x_w + y_n*params.nx]; /* south-east */
    return EXIT_SUCCESS;
 
 }
@@ -603,8 +606,13 @@ int rebound_old(const t_param params, t_speed* restrict cells, t_speed* restrict
   return EXIT_SUCCESS;
 }
 
-int rebound(const t_param params, t_speed_soa cells, t_speed_soa tmp_cells, int* obstacles)
+int rebound(const t_param params, t_speed_soa* restrict cells, t_speed_soa* restrict tmp_cells, int* obstacles)
 {
+  for (size_t i = 0; i < 9; i++)
+  {
+    __assume_aligned(cells->speeds[i], 64);
+    __assume_aligned(tmp_cells->speeds[i], 64);
+  }
   /* loop over the cells in the grid */
   for (int jj = 0; jj < params.ny; jj++)
   {
@@ -615,21 +623,29 @@ int rebound(const t_param params, t_speed_soa cells, t_speed_soa tmp_cells, int*
       {
         /* called after propagate, so taking values from scratch space
         ** mirroring, and writing into main grid */
-        float temp = tmp_cells.speeds[1][ii + jj*params.nx];
-        tmp_cells.speeds[1][ii + jj*params.nx] = tmp_cells.speeds[3][ii + jj*params.nx];
-        tmp_cells.speeds[3][ii + jj*params.nx] = temp;
+        /* float temp = tmp_cells->speeds[1][ii + jj*params.nx];
+        tmp_cells->speeds[1][ii + jj*params.nx] = tmp_cells->speeds[3][ii + jj*params.nx];
+        tmp_cells->speeds[3][ii + jj*params.nx] = temp;
 
-        temp = tmp_cells.speeds[2][ii + jj*params.nx];
-        tmp_cells.speeds[2][ii + jj*params.nx] = tmp_cells.speeds[4][ii + jj*params.nx];
-        tmp_cells.speeds[4][ii + jj*params.nx] = temp;
+        temp = tmp_cells->speeds[2][ii + jj*params.nx];
+        tmp_cells->speeds[2][ii + jj*params.nx] = tmp_cells->speeds[4][ii + jj*params.nx];
+        tmp_cells->speeds[4][ii + jj*params.nx] = temp;
 
-        temp = tmp_cells.speeds[5][ii + jj*params.nx];
-        tmp_cells.speeds[5][ii + jj*params.nx] = tmp_cells.speeds[7][ii + jj*params.nx];
-        tmp_cells.speeds[7][ii + jj*params.nx] = temp;
+        temp = tmp_cells->speeds[5][ii + jj*params.nx];
+        tmp_cells->speeds[5][ii + jj*params.nx] = tmp_cells->speeds[7][ii + jj*params.nx];
+        tmp_cells->speeds[7][ii + jj*params.nx] = temp;
 
-        temp = tmp_cells.speeds[6][ii + jj*params.nx];
-        tmp_cells.speeds[6][ii + jj*params.nx] = tmp_cells.speeds[8][ii + jj*params.nx];
-        tmp_cells.speeds[8][ii + jj*params.nx] = temp;
+        temp = tmp_cells->speeds[6][ii + jj*params.nx];
+        tmp_cells->speeds[6][ii + jj*params.nx] = tmp_cells->speeds[8][ii + jj*params.nx];
+        tmp_cells->speeds[8][ii + jj*params.nx] = temp; */
+        cells[ii + jj*params.nx].speeds[1] = tmp_cells[ii + jj*params.nx].speeds[3];
+        cells[ii + jj*params.nx].speeds[2] = tmp_cells[ii + jj*params.nx].speeds[4];
+        cells[ii + jj*params.nx].speeds[3] = tmp_cells[ii + jj*params.nx].speeds[1];
+        cells[ii + jj*params.nx].speeds[4] = tmp_cells[ii + jj*params.nx].speeds[2];
+        cells[ii + jj*params.nx].speeds[5] = tmp_cells[ii + jj*params.nx].speeds[7];
+        cells[ii + jj*params.nx].speeds[6] = tmp_cells[ii + jj*params.nx].speeds[8];
+        cells[ii + jj*params.nx].speeds[7] = tmp_cells[ii + jj*params.nx].speeds[5];
+        cells[ii + jj*params.nx].speeds[8] = tmp_cells[ii + jj*params.nx].speeds[6];
       }
     }
   }
@@ -841,12 +857,12 @@ int collision_old(const t_param params, t_speed* restrict cells, t_speed* restri
   return EXIT_SUCCESS;
 }
 
-float collision_and_vel(const t_param params, t_speed_soa cells, t_speed_soa tmp_cells, int* obstacles) 
+float collision_and_vel(const t_param params, t_speed_soa* restrict cells, t_speed_soa* restrict tmp_cells, int* obstacles) 
 {
   for (size_t i = 0; i < 9; i++)
   {
-    __assume_aligned(cells.speeds[i], 64);
-    __assume_aligned(tmp_cells.speeds[i], 64);
+    __assume_aligned(cells->speeds[i], 64);
+    __assume_aligned(tmp_cells->speeds[i], 64);
   }
 
   const float c_sq = 1.f / 3.f; /* square of speed of sound */
@@ -877,24 +893,24 @@ float collision_and_vel(const t_param params, t_speed_soa cells, t_speed_soa tmp
 
         for (int kk = 0; kk < NSPEEDS; kk++)
         {
-          local_density += tmp_cells.speeds[kk][ii + jj*params.nx];
+          local_density += tmp_cells->speeds[kk][ii + jj*params.nx];
         }
 
         /* compute x velocity component */
-        float u_x = (tmp_cells.speeds[1][ii + jj*params.nx]
-                      + tmp_cells.speeds[5][ii + jj*params.nx]
-                      + tmp_cells.speeds[8][ii + jj*params.nx]
-                      - (tmp_cells.speeds[3][ii + jj*params.nx]
-                         + tmp_cells.speeds[6][ii + jj*params.nx]
-                         + tmp_cells.speeds[7][ii + jj*params.nx]))
+        float u_x = (tmp_cells->speeds[1][ii + jj*params.nx]
+                      + tmp_cells->speeds[5][ii + jj*params.nx]
+                      + tmp_cells->speeds[8][ii + jj*params.nx]
+                      - (tmp_cells->speeds[3][ii + jj*params.nx]
+                         + tmp_cells->speeds[6][ii + jj*params.nx]
+                         + tmp_cells->speeds[7][ii + jj*params.nx]))
                      / local_density;
         /* compute y velocity component */
-        float u_y = (tmp_cells.speeds[2][ii + jj*params.nx]
-                      + tmp_cells.speeds[5][ii + jj*params.nx]
-                      + tmp_cells.speeds[6][ii + jj*params.nx]
-                      - (tmp_cells.speeds[4][ii + jj*params.nx]
-                         + tmp_cells.speeds[7][ii + jj*params.nx]
-                         + tmp_cells.speeds[8][ii + jj*params.nx]))
+        float u_y = (tmp_cells->speeds[2][ii + jj*params.nx]
+                      + tmp_cells->speeds[5][ii + jj*params.nx]
+                      + tmp_cells->speeds[6][ii + jj*params.nx]
+                      - (tmp_cells->speeds[4][ii + jj*params.nx]
+                         + tmp_cells->speeds[7][ii + jj*params.nx]
+                         + tmp_cells->speeds[8][ii + jj*params.nx]))
                      / local_density;
 
         /* velocity squared */
@@ -946,9 +962,9 @@ float collision_and_vel(const t_param params, t_speed_soa cells, t_speed_soa tmp
         /* relaxation step */
         for (int kk = 0; kk < NSPEEDS; kk++)
         {
-          tmp_cells.speeds[kk][ii + jj*params.nx] = tmp_cells.speeds[kk][ii + jj*params.nx]
+          cells->speeds[kk][ii + jj*params.nx] = tmp_cells->speeds[kk][ii + jj*params.nx]
                                                   + params.omega
-                                                  * (d_equ[kk] - tmp_cells.speeds[kk][ii + jj*params.nx]);
+                                                  * (d_equ[kk] - tmp_cells->speeds[kk][ii + jj*params.nx]);
         }
 
         
