@@ -205,36 +205,10 @@ int main(int argc, char* argv[])
     av_vels[tt] = timestep_new_new(params, cells_ptr, tmp_cells_ptr, obstacles);
     //timestep_old(params, cells, tmp_cells, obstacles);
 
-    //swap cells and tmp_cells
-    //printf("Pre swap: cells %p  tmp_cells %p\n", (void*)cells, (void*)tmp_cells);
-    /* t_speed* temp = cells;
-    *cells = *tmp_cells;
-    *tmp_cells = *temp; */
-
-    /* for (size_t i = 0; i < 9; i++)
-    {
-      swap(&cells_ptr->speeds[i], &tmp_cells_ptr->speeds[i]);
-    } */
-
-    /* swap(&cells_ptr->speed0, &tmp_cells_ptr->speed0);
-    swap(&cells_ptr->speed1, &tmp_cells_ptr->speed1);
-    swap(&cells_ptr->speed2, &tmp_cells_ptr->speed2);
-    swap(&cells_ptr->speed3, &tmp_cells_ptr->speed3);
-    swap(&cells_ptr->speed4, &tmp_cells_ptr->speed4);
-    swap(&cells_ptr->speed5, &tmp_cells_ptr->speed5);
-    swap(&cells_ptr->speed6, &tmp_cells_ptr->speed6);
-    swap(&cells_ptr->speed7, &tmp_cells_ptr->speed7);
-    swap(&cells_ptr->speed8, &tmp_cells_ptr->speed8); */
 
     swap(&cells_ptr, &tmp_cells_ptr);
 
     
-    //swap(&cells_ptr, &tmp_cells);
-    //printf("Post swap: cells %p  tmp_cells %p\n", (void*)cells, (void*)tmp_cells);
-    //swap(&cells, &tmp_cells);
-
-
-    //av_vels[tt] = av_velocity(params, cells_ptr, obstacles);
 #ifdef DEBUG
     printf("==timestep: %d==\n", tt);
     printf("av velocity: %.12E\n", av_vels[tt]);
