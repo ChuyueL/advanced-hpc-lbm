@@ -7,10 +7,11 @@
 #SBATCH --partition veryshort
 #SBATCH --reservation=COSC026662
 #SBATCH --account=COSC026662
-#SBATCH --output d2q9-bgk.out
+#SBATCH --output d2q9-bgk_%a.out
 #SBATCH --exclude compute100
+#SBATCH --array=1-10
 
-export OMP_NUM_THREADS=28
+export OMP_NUM_THREADS=27
 export OMP_PROC_BIND=true
 export OMP_PLACES=cores
 

@@ -56,6 +56,7 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <mm_malloc.h>
+#include <omp.h>
 
 #define NSPEEDS         9
 #define FINALSTATEFILE  "final_state.dat"
@@ -323,6 +324,27 @@ float timestep_new3(const t_param params, t_speed_soa* restrict cells, t_speed_s
   /* loop over _all_ cells */
   for (int jj = 0; jj < params.ny; jj++)
   {
+    //printf("%d \n", omp_get_num_threads());
+    __assume_aligned(cells->speed0, 64);
+    __assume_aligned(cells->speed1, 64);
+    __assume_aligned(cells->speed2, 64);
+    __assume_aligned(cells->speed3, 64);
+    __assume_aligned(cells->speed4, 64);
+    __assume_aligned(cells->speed5, 64);
+    __assume_aligned(cells->speed6, 64);
+    __assume_aligned(cells->speed7, 64);
+    __assume_aligned(cells->speed8, 64);
+
+    __assume_aligned(tmp_cells->speed0, 64);
+    __assume_aligned(tmp_cells->speed1, 64);
+    __assume_aligned(tmp_cells->speed2, 64);
+    __assume_aligned(tmp_cells->speed3, 64);
+    __assume_aligned(tmp_cells->speed4, 64);
+    __assume_aligned(tmp_cells->speed5, 64);
+    __assume_aligned(tmp_cells->speed6, 64);
+    __assume_aligned(tmp_cells->speed7, 64);
+    __assume_aligned(tmp_cells->speed8, 64);
+
     #pragma omp simd reduction(+:tot_u, tot_cells)
     for (int ii = 0; ii < params.nx; ii++)
     {
@@ -334,6 +356,7 @@ float timestep_new3(const t_param params, t_speed_soa* restrict cells, t_speed_s
       int x_e = (ii == params.nx - 1) ? 0 : ii + 1;
       int y_s = (jj == 0) ? (jj + params.ny - 1) : (jj - 1);
       int x_w = (ii == 0) ? (ii + params.nx - 1) : (ii - 1);
+
       if (obstacles[jj*params.nx + ii]) {
         tmp_cells->speed0[ii + jj*params.nx] = cells->speed0[ii + jj*params.nx];
         tmp_cells->speed1[ii + jj*params.nx] = cells->speed3[x_e + jj*params.nx];
