@@ -1476,7 +1476,6 @@ float timestep_new2(const t_param params, t_speed* cells, t_speed* tmp_cells, in
   {
     /* determine indices of axis-direction neighbours
     ** respecting periodic boundary conditions (wrap around) */
-    int y_n = jj + 1;
     int x_e = ii + 1;
     int x_w = ii - 1;
     /* propagate densities from neighbouring cells, following
@@ -1646,7 +1645,6 @@ float timestep_new2(const t_param params, t_speed* cells, t_speed* tmp_cells, in
   }
 
   ii = params.nx - 1;
-  y_n = jj + 1;
   x_e = 0;
   x_w = ii - 1;
   if (obstacles[jj*params.nx + ii]) {
