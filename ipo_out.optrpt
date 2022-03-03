@@ -48,138 +48,142 @@ LOOP BEGIN at d2q9-bgk.c(303,3)
    remark #15488: --- end vector cost summary ---
 LOOP END
 
-LOOP BEGIN at d2q9-bgk.c(349,5)
+LOOP BEGIN at d2q9-bgk.c(456,49)
    remark #15542: loop was not vectorized: inner loop was already vectorized
 
    LOOP BEGIN at d2q9-bgk.c(349,5)
-   <Peeled loop for vectorization>
-   LOOP END
+      remark #15542: loop was not vectorized: inner loop was already vectorized
 
-   LOOP BEGIN at d2q9-bgk.c(349,5)
-      remark #15388: vectorization support: reference tmp_cells->speed0[ii+jj*?] has aligned access   [ d2q9-bgk.c(361,9) ]
-      remark #15388: vectorization support: reference cells->speed0[ii+jj*?] has aligned access   [ d2q9-bgk.c(361,48) ]
-      remark #15388: vectorization support: reference tmp_cells->speed1[ii+jj*?] has aligned access   [ d2q9-bgk.c(362,9) ]
-      remark #15388: vectorization support: reference tmp_cells->speed2[ii+jj*?] has aligned access   [ d2q9-bgk.c(363,9) ]
-      remark #15389: vectorization support: reference cells->speed4[ii+y_n*?] has unaligned access   [ d2q9-bgk.c(363,48) ]
-      remark #15388: vectorization support: reference tmp_cells->speed3[ii+jj*?] has aligned access   [ d2q9-bgk.c(364,9) ]
-      remark #15389: vectorization support: reference cells->speed1[x_w+jj*?] has unaligned access   [ d2q9-bgk.c(364,48) ]
-      remark #15388: vectorization support: reference tmp_cells->speed4[ii+jj*?] has aligned access   [ d2q9-bgk.c(365,9) ]
-      remark #15389: vectorization support: reference cells->speed2[ii+y_s*?] has unaligned access   [ d2q9-bgk.c(365,48) ]
-      remark #15388: vectorization support: reference tmp_cells->speed5[ii+jj*?] has aligned access   [ d2q9-bgk.c(366,9) ]
-      remark #15388: vectorization support: reference tmp_cells->speed6[ii+jj*?] has aligned access   [ d2q9-bgk.c(367,9) ]
-      remark #15389: vectorization support: reference cells->speed8[x_w+y_n*?] has unaligned access   [ d2q9-bgk.c(367,48) ]
-      remark #15388: vectorization support: reference tmp_cells->speed7[ii+jj*?] has aligned access   [ d2q9-bgk.c(368,9) ]
-      remark #15389: vectorization support: reference cells->speed5[x_w+y_s*?] has unaligned access   [ d2q9-bgk.c(368,48) ]
-      remark #15388: vectorization support: reference tmp_cells->speed8[ii+jj*?] has aligned access   [ d2q9-bgk.c(369,9) ]
-      remark #15388: vectorization support: reference cells->speed0[ii+jj*?] has aligned access   [ d2q9-bgk.c(379,22) ]
-      remark #15389: vectorization support: reference cells->speed4[ii+y_n*?] has unaligned access   [ d2q9-bgk.c(383,22) ]
-      remark #15389: vectorization support: reference cells->speed2[ii+y_s*?] has unaligned access   [ d2q9-bgk.c(381,22) ]
-      remark #15389: vectorization support: reference cells->speed1[x_w+jj*?] has unaligned access   [ d2q9-bgk.c(380,22) ]
-      remark #15389: vectorization support: reference cells->speed5[x_w+y_s*?] has unaligned access   [ d2q9-bgk.c(384,22) ]
-      remark #15389: vectorization support: reference cells->speed8[x_w+y_n*?] has unaligned access   [ d2q9-bgk.c(387,22) ]
-      remark #15389: vectorization support: reference cells->speed1[x_w+jj*?] has unaligned access   [ d2q9-bgk.c(391,18) ]
-      remark #15389: vectorization support: reference cells->speed5[x_w+y_s*?] has unaligned access   [ d2q9-bgk.c(392,21) ]
-      remark #15389: vectorization support: reference cells->speed8[x_w+y_n*?] has unaligned access   [ d2q9-bgk.c(393,21) ]
-      remark #15389: vectorization support: reference cells->speed2[ii+y_s*?] has unaligned access   [ d2q9-bgk.c(399,18) ]
-      remark #15389: vectorization support: reference cells->speed5[x_w+y_s*?] has unaligned access   [ d2q9-bgk.c(400,21) ]
-      remark #15389: vectorization support: reference cells->speed4[ii+y_n*?] has unaligned access   [ d2q9-bgk.c(402,22) ]
-      remark #15389: vectorization support: reference cells->speed8[x_w+y_n*?] has unaligned access   [ d2q9-bgk.c(404,25) ]
-      remark #15388: vectorization support: reference tmp_cells->speed0[ii+jj*?] has aligned access   [ d2q9-bgk.c(455,5) ]
-      remark #15388: vectorization support: reference cells->speed0[ii+jj*?] has aligned access   [ d2q9-bgk.c(455,44) ]
-      remark #15388: vectorization support: reference cells->speed0[ii+jj*?] has aligned access   [ d2q9-bgk.c(457,61) ]
-      remark #15388: vectorization support: reference tmp_cells->speed1[ii+jj*?] has aligned access   [ d2q9-bgk.c(459,5) ]
-      remark #15389: vectorization support: reference cells->speed1[x_w+jj*?] has unaligned access   [ d2q9-bgk.c(459,44) ]
-      remark #15389: vectorization support: reference cells->speed1[x_w+jj*?] has unaligned access   [ d2q9-bgk.c(461,61) ]
-      remark #15388: vectorization support: reference tmp_cells->speed2[ii+jj*?] has aligned access   [ d2q9-bgk.c(463,5) ]
-      remark #15389: vectorization support: reference cells->speed2[ii+y_s*?] has unaligned access   [ d2q9-bgk.c(463,44) ]
-      remark #15389: vectorization support: reference cells->speed2[ii+y_s*?] has unaligned access   [ d2q9-bgk.c(465,61) ]
-      remark #15388: vectorization support: reference tmp_cells->speed3[ii+jj*?] has aligned access   [ d2q9-bgk.c(467,5) ]
-      remark #15388: vectorization support: reference tmp_cells->speed4[ii+jj*?] has aligned access   [ d2q9-bgk.c(471,5) ]
-      remark #15389: vectorization support: reference cells->speed4[ii+y_n*?] has unaligned access   [ d2q9-bgk.c(471,44) ]
-      remark #15389: vectorization support: reference cells->speed4[ii+y_n*?] has unaligned access   [ d2q9-bgk.c(473,61) ]
-      remark #15388: vectorization support: reference tmp_cells->speed5[ii+jj*?] has aligned access   [ d2q9-bgk.c(475,5) ]
-      remark #15389: vectorization support: reference cells->speed5[x_w+y_s*?] has unaligned access   [ d2q9-bgk.c(475,44) ]
-      remark #15389: vectorization support: reference cells->speed5[x_w+y_s*?] has unaligned access   [ d2q9-bgk.c(477,61) ]
-      remark #15388: vectorization support: reference tmp_cells->speed6[ii+jj*?] has aligned access   [ d2q9-bgk.c(479,5) ]
-      remark #15388: vectorization support: reference tmp_cells->speed7[ii+jj*?] has aligned access   [ d2q9-bgk.c(483,5) ]
-      remark #15388: vectorization support: reference tmp_cells->speed8[ii+jj*?] has aligned access   [ d2q9-bgk.c(487,5) ]
-      remark #15389: vectorization support: reference cells->speed8[x_w+y_n*?] has unaligned access   [ d2q9-bgk.c(487,44) ]
-      remark #15389: vectorization support: reference cells->speed8[x_w+y_n*?] has unaligned access   [ d2q9-bgk.c(489,61) ]
-      remark #15388: vectorization support: reference tmp_cells->speed0[ii+jj*?] has aligned access   [ d2q9-bgk.c(495,22) ]
-      remark #15388: vectorization support: reference tmp_cells->speed1[ii+jj*?] has aligned access   [ d2q9-bgk.c(496,22) ]
-      remark #15388: vectorization support: reference tmp_cells->speed2[ii+jj*?] has aligned access   [ d2q9-bgk.c(497,22) ]
-      remark #15388: vectorization support: reference tmp_cells->speed3[ii+jj*?] has aligned access   [ d2q9-bgk.c(498,22) ]
-      remark #15388: vectorization support: reference tmp_cells->speed4[ii+jj*?] has aligned access   [ d2q9-bgk.c(499,22) ]
-      remark #15388: vectorization support: reference tmp_cells->speed5[ii+jj*?] has aligned access   [ d2q9-bgk.c(500,22) ]
-      remark #15388: vectorization support: reference tmp_cells->speed6[ii+jj*?] has aligned access   [ d2q9-bgk.c(501,22) ]
-      remark #15388: vectorization support: reference tmp_cells->speed7[ii+jj*?] has aligned access   [ d2q9-bgk.c(502,22) ]
-      remark #15388: vectorization support: reference tmp_cells->speed8[ii+jj*?] has aligned access   [ d2q9-bgk.c(503,22) ]
-      remark #15388: vectorization support: reference tmp_cells->speed1[ii+jj*?] has aligned access   [ d2q9-bgk.c(506,12) ]
-      remark #15388: vectorization support: reference tmp_cells->speed5[ii+jj*?] has aligned access   [ d2q9-bgk.c(507,21) ]
-      remark #15388: vectorization support: reference tmp_cells->speed8[ii+jj*?] has aligned access   [ d2q9-bgk.c(508,21) ]
-      remark #15388: vectorization support: reference tmp_cells->speed3[ii+jj*?] has aligned access   [ d2q9-bgk.c(509,22) ]
-      remark #15388: vectorization support: reference tmp_cells->speed6[ii+jj*?] has aligned access   [ d2q9-bgk.c(510,25) ]
-      remark #15388: vectorization support: reference tmp_cells->speed7[ii+jj*?] has aligned access   [ d2q9-bgk.c(511,25) ]
-      remark #15388: vectorization support: reference tmp_cells->speed2[ii+jj*?] has aligned access   [ d2q9-bgk.c(514,12) ]
-      remark #15388: vectorization support: reference tmp_cells->speed5[ii+jj*?] has aligned access   [ d2q9-bgk.c(515,21) ]
-      remark #15388: vectorization support: reference tmp_cells->speed6[ii+jj*?] has aligned access   [ d2q9-bgk.c(516,21) ]
-      remark #15388: vectorization support: reference tmp_cells->speed4[ii+jj*?] has aligned access   [ d2q9-bgk.c(517,22) ]
-      remark #15388: vectorization support: reference tmp_cells->speed7[ii+jj*?] has aligned access   [ d2q9-bgk.c(518,25) ]
-      remark #15388: vectorization support: reference tmp_cells->speed8[ii+jj*?] has aligned access   [ d2q9-bgk.c(519,25) ]
-      remark #15388: vectorization support: reference tmp_cells->speed0[ii+jj*?] has aligned access   [ d2q9-bgk.c(361,9) ]
-      remark #15388: vectorization support: reference tmp_cells->speed1[ii+jj*?] has aligned access   [ d2q9-bgk.c(362,9) ]
-      remark #15388: vectorization support: reference tmp_cells->speed2[ii+jj*?] has aligned access   [ d2q9-bgk.c(363,9) ]
-      remark #15388: vectorization support: reference tmp_cells->speed3[ii+jj*?] has aligned access   [ d2q9-bgk.c(364,9) ]
-      remark #15388: vectorization support: reference tmp_cells->speed4[ii+jj*?] has aligned access   [ d2q9-bgk.c(365,9) ]
-      remark #15388: vectorization support: reference tmp_cells->speed5[ii+jj*?] has aligned access   [ d2q9-bgk.c(366,9) ]
-      remark #15388: vectorization support: reference tmp_cells->speed6[ii+jj*?] has aligned access   [ d2q9-bgk.c(367,9) ]
-      remark #15388: vectorization support: reference tmp_cells->speed7[ii+jj*?] has aligned access   [ d2q9-bgk.c(368,9) ]
-      remark #15388: vectorization support: reference tmp_cells->speed8[ii+jj*?] has aligned access   [ d2q9-bgk.c(369,9) ]
-      remark #15388: vectorization support: reference tmp_cells->speed0[ii+jj*?] has aligned access   [ d2q9-bgk.c(455,5) ]
-      remark #15388: vectorization support: reference tmp_cells->speed1[ii+jj*?] has aligned access   [ d2q9-bgk.c(459,5) ]
-      remark #15388: vectorization support: reference tmp_cells->speed2[ii+jj*?] has aligned access   [ d2q9-bgk.c(463,5) ]
-      remark #15388: vectorization support: reference tmp_cells->speed3[ii+jj*?] has aligned access   [ d2q9-bgk.c(467,5) ]
-      remark #15388: vectorization support: reference tmp_cells->speed4[ii+jj*?] has aligned access   [ d2q9-bgk.c(471,5) ]
-      remark #15388: vectorization support: reference tmp_cells->speed5[ii+jj*?] has aligned access   [ d2q9-bgk.c(475,5) ]
-      remark #15388: vectorization support: reference tmp_cells->speed6[ii+jj*?] has aligned access   [ d2q9-bgk.c(479,5) ]
-      remark #15388: vectorization support: reference tmp_cells->speed7[ii+jj*?] has aligned access   [ d2q9-bgk.c(483,5) ]
-      remark #15388: vectorization support: reference tmp_cells->speed8[ii+jj*?] has aligned access   [ d2q9-bgk.c(487,5) ]
-      remark #15381: vectorization support: unaligned access used inside loop body
-      remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed3[x_e+jj*?]>, part of index is conditional   [ d2q9-bgk.c(362,48) ]
-      remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed7[x_e+y_n*?]>, part of index is conditional   [ d2q9-bgk.c(366,48) ]
-      remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed6[x_e+y_s*?]>, part of index is conditional   [ d2q9-bgk.c(369,48) ]
-      remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed3[x_e+jj*?]>, part of index is conditional   [ d2q9-bgk.c(382,22) ]
-      remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed7[x_e+y_n*?]>, part of index is conditional   [ d2q9-bgk.c(386,22) ]
-      remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed6[x_e+y_s*?]>, part of index is conditional   [ d2q9-bgk.c(385,22) ]
-      remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed3[x_e+jj*?]>, part of index is conditional   [ d2q9-bgk.c(394,22) ]
-      remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed7[x_e+y_n*?]>, part of index is conditional   [ d2q9-bgk.c(396,25) ]
-      remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed6[x_e+y_s*?]>, part of index is conditional   [ d2q9-bgk.c(395,25) ]
-      remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed6[x_e+y_s*?]>, part of index is conditional   [ d2q9-bgk.c(401,21) ]
-      remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed7[x_e+y_n*?]>, part of index is conditional   [ d2q9-bgk.c(403,25) ]
-      remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed3[x_e+jj*?]>, part of index is conditional   [ d2q9-bgk.c(467,44) ]
-      remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed3[x_e+jj*?]>, part of index is conditional   [ d2q9-bgk.c(469,61) ]
-      remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed6[x_e+y_s*?]>, part of index is conditional   [ d2q9-bgk.c(479,44) ]
-      remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed6[x_e+y_s*?]>, part of index is conditional   [ d2q9-bgk.c(481,61) ]
-      remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed7[x_e+y_n*?]>, part of index is conditional   [ d2q9-bgk.c(483,44) ]
-      remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed7[x_e+y_n*?]>, part of index is conditional   [ d2q9-bgk.c(485,61) ]
-      remark #15305: vectorization support: vector length 8
-      remark #15309: vectorization support: normalized vectorization overhead 0.147
-      remark #15355: vectorization support: at (522:5) is float type reduction   [ d2q9-bgk.c(522,5) ]
-      remark #15355: vectorization support: at (524:7) is int type reduction   [ d2q9-bgk.c(524,7) ]
-      remark #15301: SIMD LOOP WAS VECTORIZED
-      remark #15450: unmasked unaligned unit stride loads: 69 
-      remark #15451: unmasked unaligned unit stride stores: 18 
-      remark #15462: unmasked indexed (or gather) loads: 17 
-      remark #15475: --- begin vector cost summary ---
-      remark #15476: scalar cost: 461 
-      remark #15477: vector cost: 193.250 
-      remark #15478: estimated potential speedup: 2.250 
-      remark #15486: divides: 4 
-      remark #15488: --- end vector cost summary ---
-   LOOP END
+      LOOP BEGIN at d2q9-bgk.c(349,5)
+      <Peeled loop for vectorization>
+      LOOP END
 
-   LOOP BEGIN at d2q9-bgk.c(349,5)
-   <Remainder loop for vectorization>
+      LOOP BEGIN at d2q9-bgk.c(349,5)
+         remark #15388: vectorization support: reference tmp_cells->speed0[ii+jj*?] has aligned access   [ d2q9-bgk.c(361,9) ]
+         remark #15388: vectorization support: reference cells->speed0[ii+jj*?] has aligned access   [ d2q9-bgk.c(361,48) ]
+         remark #15388: vectorization support: reference tmp_cells->speed1[ii+jj*?] has aligned access   [ d2q9-bgk.c(362,9) ]
+         remark #15388: vectorization support: reference tmp_cells->speed2[ii+jj*?] has aligned access   [ d2q9-bgk.c(363,9) ]
+         remark #15389: vectorization support: reference cells->speed4[ii+y_n*?] has unaligned access   [ d2q9-bgk.c(363,48) ]
+         remark #15388: vectorization support: reference tmp_cells->speed3[ii+jj*?] has aligned access   [ d2q9-bgk.c(364,9) ]
+         remark #15389: vectorization support: reference cells->speed1[x_w+jj*?] has unaligned access   [ d2q9-bgk.c(364,48) ]
+         remark #15388: vectorization support: reference tmp_cells->speed4[ii+jj*?] has aligned access   [ d2q9-bgk.c(365,9) ]
+         remark #15389: vectorization support: reference cells->speed2[ii+y_s*?] has unaligned access   [ d2q9-bgk.c(365,48) ]
+         remark #15388: vectorization support: reference tmp_cells->speed5[ii+jj*?] has aligned access   [ d2q9-bgk.c(366,9) ]
+         remark #15388: vectorization support: reference tmp_cells->speed6[ii+jj*?] has aligned access   [ d2q9-bgk.c(367,9) ]
+         remark #15389: vectorization support: reference cells->speed8[x_w+y_n*?] has unaligned access   [ d2q9-bgk.c(367,48) ]
+         remark #15388: vectorization support: reference tmp_cells->speed7[ii+jj*?] has aligned access   [ d2q9-bgk.c(368,9) ]
+         remark #15389: vectorization support: reference cells->speed5[x_w+y_s*?] has unaligned access   [ d2q9-bgk.c(368,48) ]
+         remark #15388: vectorization support: reference tmp_cells->speed8[ii+jj*?] has aligned access   [ d2q9-bgk.c(369,9) ]
+         remark #15388: vectorization support: reference cells->speed0[ii+jj*?] has aligned access   [ d2q9-bgk.c(379,22) ]
+         remark #15389: vectorization support: reference cells->speed4[ii+y_n*?] has unaligned access   [ d2q9-bgk.c(383,22) ]
+         remark #15389: vectorization support: reference cells->speed2[ii+y_s*?] has unaligned access   [ d2q9-bgk.c(381,22) ]
+         remark #15389: vectorization support: reference cells->speed1[x_w+jj*?] has unaligned access   [ d2q9-bgk.c(380,22) ]
+         remark #15389: vectorization support: reference cells->speed5[x_w+y_s*?] has unaligned access   [ d2q9-bgk.c(384,22) ]
+         remark #15389: vectorization support: reference cells->speed8[x_w+y_n*?] has unaligned access   [ d2q9-bgk.c(387,22) ]
+         remark #15389: vectorization support: reference cells->speed1[x_w+jj*?] has unaligned access   [ d2q9-bgk.c(391,18) ]
+         remark #15389: vectorization support: reference cells->speed5[x_w+y_s*?] has unaligned access   [ d2q9-bgk.c(392,21) ]
+         remark #15389: vectorization support: reference cells->speed8[x_w+y_n*?] has unaligned access   [ d2q9-bgk.c(393,21) ]
+         remark #15389: vectorization support: reference cells->speed2[ii+y_s*?] has unaligned access   [ d2q9-bgk.c(399,18) ]
+         remark #15389: vectorization support: reference cells->speed5[x_w+y_s*?] has unaligned access   [ d2q9-bgk.c(400,21) ]
+         remark #15389: vectorization support: reference cells->speed4[ii+y_n*?] has unaligned access   [ d2q9-bgk.c(402,22) ]
+         remark #15389: vectorization support: reference cells->speed8[x_w+y_n*?] has unaligned access   [ d2q9-bgk.c(404,25) ]
+         remark #15388: vectorization support: reference tmp_cells->speed0[ii+jj*?] has aligned access   [ d2q9-bgk.c(455,5) ]
+         remark #15388: vectorization support: reference cells->speed0[ii+jj*?] has aligned access   [ d2q9-bgk.c(455,44) ]
+         remark #15388: vectorization support: reference cells->speed0[ii+jj*?] has aligned access   [ d2q9-bgk.c(457,61) ]
+         remark #15388: vectorization support: reference tmp_cells->speed1[ii+jj*?] has aligned access   [ d2q9-bgk.c(459,5) ]
+         remark #15389: vectorization support: reference cells->speed1[x_w+jj*?] has unaligned access   [ d2q9-bgk.c(459,44) ]
+         remark #15389: vectorization support: reference cells->speed1[x_w+jj*?] has unaligned access   [ d2q9-bgk.c(461,61) ]
+         remark #15388: vectorization support: reference tmp_cells->speed2[ii+jj*?] has aligned access   [ d2q9-bgk.c(463,5) ]
+         remark #15389: vectorization support: reference cells->speed2[ii+y_s*?] has unaligned access   [ d2q9-bgk.c(463,44) ]
+         remark #15389: vectorization support: reference cells->speed2[ii+y_s*?] has unaligned access   [ d2q9-bgk.c(465,61) ]
+         remark #15388: vectorization support: reference tmp_cells->speed3[ii+jj*?] has aligned access   [ d2q9-bgk.c(467,5) ]
+         remark #15388: vectorization support: reference tmp_cells->speed4[ii+jj*?] has aligned access   [ d2q9-bgk.c(471,5) ]
+         remark #15389: vectorization support: reference cells->speed4[ii+y_n*?] has unaligned access   [ d2q9-bgk.c(471,44) ]
+         remark #15389: vectorization support: reference cells->speed4[ii+y_n*?] has unaligned access   [ d2q9-bgk.c(473,61) ]
+         remark #15388: vectorization support: reference tmp_cells->speed5[ii+jj*?] has aligned access   [ d2q9-bgk.c(475,5) ]
+         remark #15389: vectorization support: reference cells->speed5[x_w+y_s*?] has unaligned access   [ d2q9-bgk.c(475,44) ]
+         remark #15389: vectorization support: reference cells->speed5[x_w+y_s*?] has unaligned access   [ d2q9-bgk.c(477,61) ]
+         remark #15388: vectorization support: reference tmp_cells->speed6[ii+jj*?] has aligned access   [ d2q9-bgk.c(479,5) ]
+         remark #15388: vectorization support: reference tmp_cells->speed7[ii+jj*?] has aligned access   [ d2q9-bgk.c(483,5) ]
+         remark #15388: vectorization support: reference tmp_cells->speed8[ii+jj*?] has aligned access   [ d2q9-bgk.c(487,5) ]
+         remark #15389: vectorization support: reference cells->speed8[x_w+y_n*?] has unaligned access   [ d2q9-bgk.c(487,44) ]
+         remark #15389: vectorization support: reference cells->speed8[x_w+y_n*?] has unaligned access   [ d2q9-bgk.c(489,61) ]
+         remark #15388: vectorization support: reference tmp_cells->speed0[ii+jj*?] has aligned access   [ d2q9-bgk.c(495,22) ]
+         remark #15388: vectorization support: reference tmp_cells->speed1[ii+jj*?] has aligned access   [ d2q9-bgk.c(496,22) ]
+         remark #15388: vectorization support: reference tmp_cells->speed2[ii+jj*?] has aligned access   [ d2q9-bgk.c(497,22) ]
+         remark #15388: vectorization support: reference tmp_cells->speed3[ii+jj*?] has aligned access   [ d2q9-bgk.c(498,22) ]
+         remark #15388: vectorization support: reference tmp_cells->speed4[ii+jj*?] has aligned access   [ d2q9-bgk.c(499,22) ]
+         remark #15388: vectorization support: reference tmp_cells->speed5[ii+jj*?] has aligned access   [ d2q9-bgk.c(500,22) ]
+         remark #15388: vectorization support: reference tmp_cells->speed6[ii+jj*?] has aligned access   [ d2q9-bgk.c(501,22) ]
+         remark #15388: vectorization support: reference tmp_cells->speed7[ii+jj*?] has aligned access   [ d2q9-bgk.c(502,22) ]
+         remark #15388: vectorization support: reference tmp_cells->speed8[ii+jj*?] has aligned access   [ d2q9-bgk.c(503,22) ]
+         remark #15388: vectorization support: reference tmp_cells->speed1[ii+jj*?] has aligned access   [ d2q9-bgk.c(506,12) ]
+         remark #15388: vectorization support: reference tmp_cells->speed5[ii+jj*?] has aligned access   [ d2q9-bgk.c(507,21) ]
+         remark #15388: vectorization support: reference tmp_cells->speed8[ii+jj*?] has aligned access   [ d2q9-bgk.c(508,21) ]
+         remark #15388: vectorization support: reference tmp_cells->speed3[ii+jj*?] has aligned access   [ d2q9-bgk.c(509,22) ]
+         remark #15388: vectorization support: reference tmp_cells->speed6[ii+jj*?] has aligned access   [ d2q9-bgk.c(510,25) ]
+         remark #15388: vectorization support: reference tmp_cells->speed7[ii+jj*?] has aligned access   [ d2q9-bgk.c(511,25) ]
+         remark #15388: vectorization support: reference tmp_cells->speed2[ii+jj*?] has aligned access   [ d2q9-bgk.c(514,12) ]
+         remark #15388: vectorization support: reference tmp_cells->speed5[ii+jj*?] has aligned access   [ d2q9-bgk.c(515,21) ]
+         remark #15388: vectorization support: reference tmp_cells->speed6[ii+jj*?] has aligned access   [ d2q9-bgk.c(516,21) ]
+         remark #15388: vectorization support: reference tmp_cells->speed4[ii+jj*?] has aligned access   [ d2q9-bgk.c(517,22) ]
+         remark #15388: vectorization support: reference tmp_cells->speed7[ii+jj*?] has aligned access   [ d2q9-bgk.c(518,25) ]
+         remark #15388: vectorization support: reference tmp_cells->speed8[ii+jj*?] has aligned access   [ d2q9-bgk.c(519,25) ]
+         remark #15388: vectorization support: reference tmp_cells->speed0[ii+jj*?] has aligned access   [ d2q9-bgk.c(361,9) ]
+         remark #15388: vectorization support: reference tmp_cells->speed1[ii+jj*?] has aligned access   [ d2q9-bgk.c(362,9) ]
+         remark #15388: vectorization support: reference tmp_cells->speed2[ii+jj*?] has aligned access   [ d2q9-bgk.c(363,9) ]
+         remark #15388: vectorization support: reference tmp_cells->speed3[ii+jj*?] has aligned access   [ d2q9-bgk.c(364,9) ]
+         remark #15388: vectorization support: reference tmp_cells->speed4[ii+jj*?] has aligned access   [ d2q9-bgk.c(365,9) ]
+         remark #15388: vectorization support: reference tmp_cells->speed5[ii+jj*?] has aligned access   [ d2q9-bgk.c(366,9) ]
+         remark #15388: vectorization support: reference tmp_cells->speed6[ii+jj*?] has aligned access   [ d2q9-bgk.c(367,9) ]
+         remark #15388: vectorization support: reference tmp_cells->speed7[ii+jj*?] has aligned access   [ d2q9-bgk.c(368,9) ]
+         remark #15388: vectorization support: reference tmp_cells->speed8[ii+jj*?] has aligned access   [ d2q9-bgk.c(369,9) ]
+         remark #15388: vectorization support: reference tmp_cells->speed0[ii+jj*?] has aligned access   [ d2q9-bgk.c(455,5) ]
+         remark #15388: vectorization support: reference tmp_cells->speed1[ii+jj*?] has aligned access   [ d2q9-bgk.c(459,5) ]
+         remark #15388: vectorization support: reference tmp_cells->speed2[ii+jj*?] has aligned access   [ d2q9-bgk.c(463,5) ]
+         remark #15388: vectorization support: reference tmp_cells->speed3[ii+jj*?] has aligned access   [ d2q9-bgk.c(467,5) ]
+         remark #15388: vectorization support: reference tmp_cells->speed4[ii+jj*?] has aligned access   [ d2q9-bgk.c(471,5) ]
+         remark #15388: vectorization support: reference tmp_cells->speed5[ii+jj*?] has aligned access   [ d2q9-bgk.c(475,5) ]
+         remark #15388: vectorization support: reference tmp_cells->speed6[ii+jj*?] has aligned access   [ d2q9-bgk.c(479,5) ]
+         remark #15388: vectorization support: reference tmp_cells->speed7[ii+jj*?] has aligned access   [ d2q9-bgk.c(483,5) ]
+         remark #15388: vectorization support: reference tmp_cells->speed8[ii+jj*?] has aligned access   [ d2q9-bgk.c(487,5) ]
+         remark #15381: vectorization support: unaligned access used inside loop body
+         remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed3[x_e+jj*?]>, part of index is conditional   [ d2q9-bgk.c(362,48) ]
+         remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed7[x_e+y_n*?]>, part of index is conditional   [ d2q9-bgk.c(366,48) ]
+         remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed6[x_e+y_s*?]>, part of index is conditional   [ d2q9-bgk.c(369,48) ]
+         remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed3[x_e+jj*?]>, part of index is conditional   [ d2q9-bgk.c(382,22) ]
+         remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed7[x_e+y_n*?]>, part of index is conditional   [ d2q9-bgk.c(386,22) ]
+         remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed6[x_e+y_s*?]>, part of index is conditional   [ d2q9-bgk.c(385,22) ]
+         remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed3[x_e+jj*?]>, part of index is conditional   [ d2q9-bgk.c(394,22) ]
+         remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed7[x_e+y_n*?]>, part of index is conditional   [ d2q9-bgk.c(396,25) ]
+         remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed6[x_e+y_s*?]>, part of index is conditional   [ d2q9-bgk.c(395,25) ]
+         remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed6[x_e+y_s*?]>, part of index is conditional   [ d2q9-bgk.c(401,21) ]
+         remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed7[x_e+y_n*?]>, part of index is conditional   [ d2q9-bgk.c(403,25) ]
+         remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed3[x_e+jj*?]>, part of index is conditional   [ d2q9-bgk.c(467,44) ]
+         remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed3[x_e+jj*?]>, part of index is conditional   [ d2q9-bgk.c(469,61) ]
+         remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed6[x_e+y_s*?]>, part of index is conditional   [ d2q9-bgk.c(479,44) ]
+         remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed6[x_e+y_s*?]>, part of index is conditional   [ d2q9-bgk.c(481,61) ]
+         remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed7[x_e+y_n*?]>, part of index is conditional   [ d2q9-bgk.c(483,44) ]
+         remark #15415: vectorization support: irregularly indexed load was generated for the variable <cells->speed7[x_e+y_n*?]>, part of index is conditional   [ d2q9-bgk.c(485,61) ]
+         remark #15305: vectorization support: vector length 8
+         remark #15309: vectorization support: normalized vectorization overhead 0.147
+         remark #15355: vectorization support: at (522:5) is float type reduction   [ d2q9-bgk.c(522,5) ]
+         remark #15355: vectorization support: at (524:7) is int type reduction   [ d2q9-bgk.c(524,7) ]
+         remark #15301: SIMD LOOP WAS VECTORIZED
+         remark #15450: unmasked unaligned unit stride loads: 69 
+         remark #15451: unmasked unaligned unit stride stores: 18 
+         remark #15462: unmasked indexed (or gather) loads: 17 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 461 
+         remark #15477: vector cost: 193.250 
+         remark #15478: estimated potential speedup: 2.250 
+         remark #15486: divides: 4 
+         remark #15488: --- end vector cost summary ---
+      LOOP END
+
+      LOOP BEGIN at d2q9-bgk.c(349,5)
+      <Remainder loop for vectorization>
+      LOOP END
    LOOP END
 LOOP END
 ===========================================================================
