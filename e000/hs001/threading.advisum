@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- <!DOCTYPE IntelParallelAdvisorSummaryCollection SYSTEM  "IntelParallelAdvisorSummaryCollection.dtd"> -->
+
+<IntelParallelAdvisorSummary version="" 
+                             kind="DATAKIND_SURVEY_EX" >
+  <hotspot filename="/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c"
+           line_no="180"
+           routine="main"
+           is_vectorized="0"
+           self_time="0.000000E+00"
+           total_time="5.550000E+00"
+           trip_counts=""
+           func_instance="4"
+           priority="0"/>
+  <hotspot filename="/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c"
+           line_no="202"
+           routine="main"
+           is_vectorized="0"
+           self_time="0.000000E+00"
+           total_time="5.530000E+00"
+           trip_counts=""
+           func_instance="2"
+           priority="0"/>
+  <hotspot filename="/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c"
+           line_no="1101"
+           routine="timestep_new_new"
+           is_vectorized="0"
+           self_time="1.500019E-01"
+           total_time="5.460000E+00"
+           trip_counts=""
+           func_instance="9"
+           priority="0"/>
+  <hotspot filename="/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c"
+           line_no="1280"
+           routine="timestep_new_new"
+           is_vectorized="1"
+           self_time="5.309998E+00"
+           total_time="5.309998E+00"
+           trip_counts=""
+           func_instance="38"
+           confidence="0"
+           efficiency="4.250000E+01"
+           referenceEfficiency="1.250000E+01"
+           priority="0"/>
+  <hotspot filename="/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c"
+           line_no="1809"
+           routine="timestep_new_new"
+           is_vectorized="1"
+           self_time="3.999980E-02"
+           total_time="3.999980E-02"
+           trip_counts=""
+           func_instance="39"
+           confidence="0"
+           efficiency="4.250000E+01"
+           referenceEfficiency="1.250000E+01"
+           priority="0"/>
+</IntelParallelAdvisorSummary >
