@@ -10,7 +10,7 @@
 #SBATCH --output d2q9-bgk.out
 #SBATCH --exclude compute100
 
-export OMP_NUM_THREADS=28
+export OMP_NUM_THREADS=1
 export OMP_PROC_BIND=true
 export OMP_PLACES=cores
 
@@ -22,7 +22,7 @@ echo This job runs on the following machines:
 echo `echo $SLURM_JOB_NODELIST | uniq`
 
 #! Run the executable
-./d2q9-bgk input_128x128.params obstacles_128x128.dat
-#./d2q9-bgk input_128x256.params obstacles_128x256.dat
+#./d2q9-bgk input_128x128.params obstacles_128x128.dat
+./d2q9-bgk input_128x256.params obstacles_128x256.dat
 #./d2q9-bgk input_256x256.params obstacles_256x256.dat
 #./d2q9-bgk input_1024x1024.params obstacles_1024x1024.dat
