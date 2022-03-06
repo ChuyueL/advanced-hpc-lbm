@@ -3,7 +3,7 @@
 #SBATCH --job-name d2q9-bgk
 #SBATCH --nodes 1
 #SBATCH --ntasks-per-node 28
-#SBATCH --time 00:05:00
+#SBATCH --time 00:07:00
 #SBATCH --partition veryshort
 #SBATCH --reservation=COSC026662
 #SBATCH --account=COSC026662
@@ -11,7 +11,7 @@
 #SBATCH --exclude compute100
 #SBATCH --array=1-10
 
-export OMP_NUM_THREADS=27
+export OMP_NUM_THREADS=28
 export OMP_PROC_BIND=true
 export OMP_PLACES=cores
 
@@ -23,7 +23,7 @@ echo This job runs on the following machines:
 echo `echo $SLURM_JOB_NODELIST | uniq`
 
 #! Run the executable
-./d2q9-bgk input_128x128.params obstacles_128x128.dat
+#./d2q9-bgk input_128x128.params obstacles_128x128.dat
 #./d2q9-bgk input_128x256.params obstacles_128x256.dat
 #./d2q9-bgk input_256x256.params obstacles_256x256.dat
-#./d2q9-bgk input_1024x1024.params obstacles_1024x1024.dat
+./d2q9-bgk input_1024x1024.params obstacles_1024x1024.dat
