@@ -57,6 +57,7 @@
 #include <sys/resource.h>
 #include <mm_malloc.h>
 #include <omp.h>
+#include "/mnt/storage/software/languages/intel/intel-parallel_studio_xe_2020_u4/compilers_and_libraries_2020.4.304/linux/mpi/intel64/include/mpi.h"
 
 #define NSPEEDS         9
 #define FINALSTATEFILE  "final_state.dat"
@@ -157,6 +158,11 @@ inline void swap(t_speed_soa** cells_ptr, t_speed_soa **tmp_cells_ptr) {
 */
 int main(int argc, char* argv[])
 {
+  MPI_Init(&argc, &argv);
+  int nprocs, rank;
+  MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
   char*    paramfile = NULL;    /* name of the input parameter file */
   char*    obstaclefile = NULL; /* name of a the input obstacle file */
   t_param  params;              /* struct to hold parameter values */
@@ -230,6 +236,7 @@ int main(int argc, char* argv[])
   write_values(params, cells_ptr, obstacles, av_vels);
   finalise(&params, cells_ptr, tmp_cells_ptr, &obstacles, &av_vels);
 
+  MPI_Finalize();
   return EXIT_SUCCESS;
 }
 
@@ -240,6 +247,10 @@ int timestep(const t_param params, t_speed_soa* cells, t_speed_soa* tmp_cells, i
   rebound(params, cells, tmp_cells, obstacles);
   collision(params, cells, tmp_cells, obstacles);
   return EXIT_SUCCESS;
+}
+
+int timestep_mpi(const t_param params, t_speed_soa* cells, t_speed_soa* tmp_cells, int* obstacles, int rank) {
+
 }
 
 float timestep_parallel(const t_param params, t_speed_soa* restrict cells, t_speed_soa* restrict tmp_cells, int* restrict obstacles) {
