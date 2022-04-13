@@ -460,8 +460,10 @@ void initialise_buffers(const t_param params, t_speed_soa* global_cells, t_speed
 
 }
 
-float timestep_mpi(const t_param params, t_speed_soa* cells, t_speed_soa* tmp_cells, int* obstacles, int rank, int nprocs) {
+float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_soa* restrict tmp_cells, int* obstacles, int rank, int nprocs) {
   int r = params.ny % nprocs; //remainder
+  int normal_work = params.ny / nprocs;
+
   int work; //number of rows this rank will do
   int start;
   int end;
@@ -506,10 +508,38 @@ float timestep_mpi(const t_param params, t_speed_soa* cells, t_speed_soa* tmp_ce
 
   //temp assume will always be final rank
   
+  int accelerate_rank;
+  int jj;
+  if (normal_work >= 2) {
+    accelerate_rank = nprocs - 1;
+    jj = work - 1;
+  }
+  else {
+    accelerate_rank = nprocs - 2;
+    jj = work;
+  }
 
-  if (rank == nprocs - 1) {
-    int jj = work - 1;
+  if (rank == accelerate_rank) {
 
+    __assume_aligned(cells->speed0, 64);
+    __assume_aligned(cells->speed1, 64);
+    __assume_aligned(cells->speed2, 64);
+    __assume_aligned(cells->speed3, 64);
+    __assume_aligned(cells->speed4, 64);
+    __assume_aligned(cells->speed5, 64);
+    __assume_aligned(cells->speed6, 64);
+    __assume_aligned(cells->speed7, 64);
+    __assume_aligned(cells->speed8, 64);
+
+    __assume_aligned(tmp_cells->speed0, 64);
+    __assume_aligned(tmp_cells->speed1, 64);
+    __assume_aligned(tmp_cells->speed2, 64);
+    __assume_aligned(tmp_cells->speed3, 64);
+    __assume_aligned(tmp_cells->speed4, 64);
+    __assume_aligned(tmp_cells->speed5, 64);
+    __assume_aligned(tmp_cells->speed6, 64);
+    __assume_aligned(tmp_cells->speed7, 64);
+    __assume_aligned(tmp_cells->speed8, 64);
     //#pragma omp simd
     for (int ii = 0; ii < params.nx; ii++)
     {
@@ -696,7 +726,7 @@ float timestep_mpi(const t_param params, t_speed_soa* cells, t_speed_soa* tmp_ce
   for (int jj = 1; jj < work + 1; jj++)
   {
     //printf("%d \n", omp_get_num_threads());
-    /* __assume_aligned(cells->speed0, 64);
+    __assume_aligned(cells->speed0, 64);
     __assume_aligned(cells->speed1, 64);
     __assume_aligned(cells->speed2, 64);
     __assume_aligned(cells->speed3, 64);
@@ -714,9 +744,9 @@ float timestep_mpi(const t_param params, t_speed_soa* cells, t_speed_soa* tmp_ce
     __assume_aligned(tmp_cells->speed5, 64);
     __assume_aligned(tmp_cells->speed6, 64);
     __assume_aligned(tmp_cells->speed7, 64);
-    __assume_aligned(tmp_cells->speed8, 64); */
+    __assume_aligned(tmp_cells->speed8, 64);
 
-    //#pragma omp simd
+    #pragma omp simd
     for (int ii = 0; ii < params.nx; ii++)
     {
       /* determine indices of axis-direction neighbours
