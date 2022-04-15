@@ -3,13 +3,13 @@
 EXE=d2q9-bgk
 
 CC=mpiicc
-CFLAGS= -qopenmp -qopt-report=5 -qopt-report-phase=vec -Ofast -Wall -std=c99 
+CFLAGS= -qopenmp -qopt-report=5 -qopt-report-phase=vec -Ofast -xHost -Wall -std=c99 
 LIBS = -lm
 
 FINAL_STATE_FILE=./final_state.dat
 AV_VELS_FILE=./av_vels.dat
-REF_FINAL_STATE_FILE=check/1024x1024.final_state.dat
-REF_AV_VELS_FILE=check/1024x1024.av_vels.dat
+REF_FINAL_STATE_FILE=check/128x128.final_state.dat
+REF_AV_VELS_FILE=check/128x128.av_vels.dat
 
 all: $(EXE)
 

@@ -278,14 +278,14 @@ int main(int argc, char* argv[])
     displacements[i] = displacements[i-1] + recvcounts[i-1];
   }
   
-  printf("Displacements: ");
+  /* printf("Displacements: ");
   for (size_t i = 0; i < nprocs; i++)
   {
     printf("%d ", displacements[i]);
   }
   printf("\n");
 
-  printf("Rank %d\n", rank);
+  printf("Rank %d\n", rank); */
 
  /*  if (rank == 0) {
     for (size_t jj = 1; jj < work + 1; jj++)
@@ -398,7 +398,7 @@ int main(int argc, char* argv[])
   col_toc = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
   tot_toc = col_toc;
   
-  if (rank == 0) {
+  /* if (rank == 0) {
     for (size_t jj = 0; jj < params.ny; jj++)
     {
       for (size_t ii = 0; ii < params.nx; ii++)
@@ -407,7 +407,7 @@ int main(int argc, char* argv[])
       }
       printf("\n");
     }
-  }
+  } */
   
   
 
@@ -519,8 +519,8 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
     jj = work;
   }
 
+  
   if (rank == accelerate_rank) {
-
     __assume_aligned(cells->speed0, 64);
     __assume_aligned(cells->speed1, 64);
     __assume_aligned(cells->speed2, 64);
@@ -540,7 +540,14 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
     __assume_aligned(tmp_cells->speed6, 64);
     __assume_aligned(tmp_cells->speed7, 64);
     __assume_aligned(tmp_cells->speed8, 64);
-    //#pragma omp simd
+
+    __assume((params.nx) % 2 == 0);
+    __assume((params.nx) % 4 == 0);
+    __assume((params.nx) % 8 == 0);
+    __assume((params.nx) % 16 == 0);
+    __assume((params.nx) % 32 == 0);
+    __assume((params.nx) % 64 == 0);
+    #pragma omp simd
     for (int ii = 0; ii < params.nx; ii++)
     {
       /* if the cell is not occupied and
@@ -580,6 +587,15 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
   float* recvbuf = (float*)_mm_malloc(sizeof(float) * params.nx, 64);
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, MPI_COMM_WORLD, &status);
   
+  __assume_aligned(cells->speed0, 64);
+  __assume_aligned(recvbuf, 64);
+
+  __assume((params.nx) % 2 == 0);
+  __assume((params.nx) % 4 == 0);
+  __assume((params.nx) % 8 == 0);
+  __assume((params.nx) % 16 == 0);
+  __assume((params.nx) % 32 == 0);
+  __assume((params.nx) % 64 == 0);
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed0[i + (work + 1) * params.nx] = recvbuf[i];
@@ -587,7 +603,14 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
 
   sendbuf = &cells->speed1[params.nx]; //top row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, MPI_COMM_WORLD, &status);
-  
+  __assume_aligned(cells->speed1, 64);
+  __assume((params.nx) % 2 == 0);
+  __assume((params.nx) % 4 == 0);
+  __assume((params.nx) % 8 == 0);
+  __assume((params.nx) % 16 == 0);
+  __assume((params.nx) % 32 == 0);
+  __assume((params.nx) % 64 == 0);
+
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed1[i + (work + 1) * params.nx] = recvbuf[i];
@@ -595,7 +618,14 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
 
   sendbuf = &cells->speed2[params.nx]; //top row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, MPI_COMM_WORLD, &status);
-  
+  __assume_aligned(cells->speed2, 64);
+  __assume((params.nx) % 2 == 0);
+  __assume((params.nx) % 4 == 0);
+  __assume((params.nx) % 8 == 0);
+  __assume((params.nx) % 16 == 0);
+  __assume((params.nx) % 32 == 0);
+  __assume((params.nx) % 64 == 0);
+
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed2[i + (work + 1) * params.nx] = recvbuf[i];
@@ -603,7 +633,14 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
 
   sendbuf = &cells->speed3[params.nx]; //top row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, MPI_COMM_WORLD, &status);
-  
+  __assume_aligned(cells->speed3, 64);
+  __assume((params.nx) % 2 == 0);
+  __assume((params.nx) % 4 == 0);
+  __assume((params.nx) % 8 == 0);
+  __assume((params.nx) % 16 == 0);
+  __assume((params.nx) % 32 == 0);
+  __assume((params.nx) % 64 == 0);
+
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed3[i + (work + 1) * params.nx] = recvbuf[i];
@@ -611,7 +648,14 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
 
   sendbuf = &cells->speed4[params.nx]; //top row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, MPI_COMM_WORLD, &status);
-  
+  __assume_aligned(cells->speed4, 64);
+  __assume((params.nx) % 2 == 0);
+  __assume((params.nx) % 4 == 0);
+  __assume((params.nx) % 8 == 0);
+  __assume((params.nx) % 16 == 0);
+  __assume((params.nx) % 32 == 0);
+  __assume((params.nx) % 64 == 0);
+
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed4[i + (work + 1) * params.nx] = recvbuf[i];
@@ -619,7 +663,14 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
   
   sendbuf = &cells->speed5[params.nx]; //top row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, MPI_COMM_WORLD, &status);
-  
+  __assume_aligned(cells->speed5, 64);
+  __assume((params.nx) % 2 == 0);
+  __assume((params.nx) % 4 == 0);
+  __assume((params.nx) % 8 == 0);
+  __assume((params.nx) % 16 == 0);
+  __assume((params.nx) % 32 == 0);
+  __assume((params.nx) % 64 == 0);
+
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed5[i + (work + 1) * params.nx] = recvbuf[i];
@@ -627,7 +678,14 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
 
   sendbuf = &cells->speed6[params.nx]; //top row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, MPI_COMM_WORLD, &status);
-  
+  __assume_aligned(cells->speed6, 64);
+  __assume((params.nx) % 2 == 0);
+  __assume((params.nx) % 4 == 0);
+  __assume((params.nx) % 8 == 0);
+  __assume((params.nx) % 16 == 0);
+  __assume((params.nx) % 32 == 0);
+  __assume((params.nx) % 64 == 0);
+
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed6[i + (work + 1) * params.nx] = recvbuf[i];
@@ -635,7 +693,14 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
 
   sendbuf = &cells->speed7[params.nx]; //top row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, MPI_COMM_WORLD, &status);
-  
+  __assume_aligned(cells->speed7, 64);
+  __assume((params.nx) % 2 == 0);
+  __assume((params.nx) % 4 == 0);
+  __assume((params.nx) % 8 == 0);
+  __assume((params.nx) % 16 == 0);
+  __assume((params.nx) % 32 == 0);
+  __assume((params.nx) % 64 == 0);
+
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed7[i + (work + 1) * params.nx] = recvbuf[i];
@@ -643,7 +708,14 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
 
   sendbuf = &cells->speed8[params.nx]; //top row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, MPI_COMM_WORLD, &status);
-  
+  __assume_aligned(cells->speed8, 64);
+  __assume((params.nx) % 2 == 0);
+  __assume((params.nx) % 4 == 0);
+  __assume((params.nx) % 8 == 0);
+  __assume((params.nx) % 16 == 0);
+  __assume((params.nx) % 32 == 0);
+  __assume((params.nx) % 64 == 0);
+
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed8[i + (work + 1) * params.nx] = recvbuf[i];
@@ -652,6 +724,16 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
   //Send to bottom and receive from top
   sendbuf = &cells->speed0[work * params.nx]; //bottom row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, MPI_COMM_WORLD, &status);
+  __assume_aligned(cells->speed0, 64);
+  __assume_aligned(recvbuf, 64);
+
+  __assume((params.nx) % 2 == 0);
+  __assume((params.nx) % 4 == 0);
+  __assume((params.nx) % 8 == 0);
+  __assume((params.nx) % 16 == 0);
+  __assume((params.nx) % 32 == 0);
+  __assume((params.nx) % 64 == 0);
+  
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed0[i] = recvbuf[i];
@@ -659,6 +741,14 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
 
   sendbuf = &cells->speed1[work * params.nx]; //bottom row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, MPI_COMM_WORLD, &status);
+  __assume_aligned(cells->speed1, 64);
+  __assume((params.nx) % 2 == 0);
+  __assume((params.nx) % 4 == 0);
+  __assume((params.nx) % 8 == 0);
+  __assume((params.nx) % 16 == 0);
+  __assume((params.nx) % 32 == 0);
+  __assume((params.nx) % 64 == 0);
+  
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed1[i] = recvbuf[i];
@@ -666,6 +756,14 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
 
   sendbuf = &cells->speed2[work * params.nx]; //bottom row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, MPI_COMM_WORLD, &status);
+  __assume_aligned(cells->speed2, 64);
+  __assume((params.nx) % 2 == 0);
+  __assume((params.nx) % 4 == 0);
+  __assume((params.nx) % 8 == 0);
+  __assume((params.nx) % 16 == 0);
+  __assume((params.nx) % 32 == 0);
+  __assume((params.nx) % 64 == 0);
+  
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed2[i] = recvbuf[i];
@@ -673,6 +771,14 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
 
   sendbuf = &cells->speed3[work * params.nx]; //bottom row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, MPI_COMM_WORLD, &status);
+  __assume_aligned(cells->speed3, 64);
+  __assume((params.nx) % 2 == 0);
+  __assume((params.nx) % 4 == 0);
+  __assume((params.nx) % 8 == 0);
+  __assume((params.nx) % 16 == 0);
+  __assume((params.nx) % 32 == 0);
+  __assume((params.nx) % 64 == 0);
+  
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed3[i] = recvbuf[i];
@@ -680,6 +786,14 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
 
   sendbuf = &cells->speed4[work * params.nx]; //bottom row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, MPI_COMM_WORLD, &status);
+  __assume_aligned(cells->speed4, 64);
+  __assume((params.nx) % 2 == 0);
+  __assume((params.nx) % 4 == 0);
+  __assume((params.nx) % 8 == 0);
+  __assume((params.nx) % 16 == 0);
+  __assume((params.nx) % 32 == 0);
+  __assume((params.nx) % 64 == 0);
+  
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed4[i] = recvbuf[i];
@@ -687,6 +801,14 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
 
   sendbuf = &cells->speed5[work * params.nx]; //bottom row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, MPI_COMM_WORLD, &status);
+  __assume_aligned(cells->speed5, 64);
+  __assume((params.nx) % 2 == 0);
+  __assume((params.nx) % 4 == 0);
+  __assume((params.nx) % 8 == 0);
+  __assume((params.nx) % 16 == 0);
+  __assume((params.nx) % 32 == 0);
+  __assume((params.nx) % 64 == 0);
+  
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed5[i] = recvbuf[i];
@@ -694,6 +816,14 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
 
   sendbuf = &cells->speed6[work * params.nx]; //bottom row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, MPI_COMM_WORLD, &status);
+  __assume_aligned(cells->speed6, 64);
+  __assume((params.nx) % 2 == 0);
+  __assume((params.nx) % 4 == 0);
+  __assume((params.nx) % 8 == 0);
+  __assume((params.nx) % 16 == 0);
+  __assume((params.nx) % 32 == 0);
+  __assume((params.nx) % 64 == 0);
+  
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed6[i] = recvbuf[i];
@@ -701,6 +831,14 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
 
   sendbuf = &cells->speed7[work * params.nx]; //bottom row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, MPI_COMM_WORLD, &status);
+  __assume_aligned(cells->speed7, 64);
+  __assume((params.nx) % 2 == 0);
+  __assume((params.nx) % 4 == 0);
+  __assume((params.nx) % 8 == 0);
+  __assume((params.nx) % 16 == 0);
+  __assume((params.nx) % 32 == 0);
+  __assume((params.nx) % 64 == 0);
+  
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed7[i] = recvbuf[i];
@@ -708,6 +846,14 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
 
   sendbuf = &cells->speed8[work * params.nx]; //bottom row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, MPI_COMM_WORLD, &status);
+  __assume_aligned(cells->speed8, 64);
+  __assume((params.nx) % 2 == 0);
+  __assume((params.nx) % 4 == 0);
+  __assume((params.nx) % 8 == 0);
+  __assume((params.nx) % 16 == 0);
+  __assume((params.nx) % 32 == 0);
+  __assume((params.nx) % 64 == 0);
+  
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed8[i] = recvbuf[i];
@@ -746,23 +892,23 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
     __assume_aligned(tmp_cells->speed7, 64);
     __assume_aligned(tmp_cells->speed8, 64);
 
+    __assume((params.nx) % 2 == 0);
+    __assume((params.nx) % 4 == 0);
+    __assume((params.nx) % 8 == 0);
+    __assume((params.nx) % 16 == 0);
+    __assume((params.nx) % 32 == 0);
+    __assume((params.nx) % 64 == 0);
+
     #pragma omp simd
     for (int ii = 0; ii < params.nx; ii++)
     {
       /* determine indices of axis-direction neighbours
       ** respecting periodic boundary conditions (wrap around) */
 
-      /* int y_n = (jj == params.ny - 1) ? 0 : jj + 1;
-      int x_e = (ii == params.nx - 1) ? 0 : ii + 1;
-      int y_s = (jj == 0) ? (jj + params.ny - 1) : (jj - 1);
-      int x_w = (ii == 0) ? (ii + params.nx - 1) : (ii - 1); */
-
-      //int y_n = (rank == nprocs - 1 && jj == work + 1) ? work + 2 : jj+1;
-      int y_n = jj + 1;
-      int x_e = (ii == params.nx - 1) ? 0 : ii + 1;
-      //int y_s = (rank == 0 && jj == 1) ? 0 : jj - 1;
-      int y_s = jj - 1;
-      int x_w = (ii == 0) ? (ii + params.nx - 1) : (ii - 1);
+      const int y_n = jj + 1;
+      const int x_e = (ii == params.nx - 1) ? 0 : ii + 1;
+      const int y_s = jj - 1;
+      const int x_w = (ii == 0) ? (ii + params.nx - 1) : (ii - 1);
 
       if (obstacles[(start - 1) * params.nx + jj*params.nx + ii]) {
         tmp_cells->speed0[ii + jj*params.nx] = cells->speed0[ii + jj*params.nx];
@@ -943,14 +1089,14 @@ float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_so
   float local_tot_u = tot_u;
   float global_tot_u = 0.0;
 
-  MPI_Allreduce(&local_tot_cells, &global_tot_cells, 1, MPI_INT, MPI_SUM, MPI_COMM_WORLD);
-  MPI_Allreduce(&local_tot_u, &global_tot_u, 1, MPI_FLOAT, MPI_SUM, MPI_COMM_WORLD);
+  MPI_Reduce(&local_tot_cells, &global_tot_cells, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+  MPI_Reduce(&local_tot_u, &global_tot_u, 1, MPI_FLOAT, MPI_SUM, 0, MPI_COMM_WORLD);
 
-  if (rank == 0) {
+  /* if (rank == 0) {
     printf("%f\n", global_tot_u/(float)global_tot_cells);
     printf("global tot_u: %f\n", global_tot_u);
     printf("global tot_cells: %d\n", global_tot_cells);
-  }
+  } */
   return global_tot_u/(float)global_tot_cells;
 
 }
