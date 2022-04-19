@@ -152,6 +152,16 @@ float calc_reynolds(const t_param params, t_speed_soa* cells, int* obstacles);
 void die(const char* message, const int line, const char* file);
 void usage(const char* exe);
 
+//int r;
+/* int work;
+int start;
+int end; */
+//int normal_work;
+int top_neighbour_rank;
+int bottom_neighbour_rank;
+int accelerate_rank;
+int accelerate_jj;
+
 inline void swap(t_speed_soa** cells_ptr, t_speed_soa **tmp_cells_ptr) {
     t_speed_soa* temp = *cells_ptr;
     *cells_ptr = *tmp_cells_ptr;
@@ -213,7 +223,6 @@ int main(int argc, char* argv[])
   comp_tic=init_toc;
 
   int r = params.ny % nprocs; //remainder
-  int normal_work = params.ny / nprocs;
   int work;
   int start;
   int end;
@@ -226,6 +235,30 @@ int main(int argc, char* argv[])
     work = params.ny / nprocs;
     start = rank * work + r;
     end = start + work;
+  }
+  int normal_work = params.ny / nprocs;
+
+  if (rank != 0) {
+    top_neighbour_rank = rank - 1;
+  }
+  else {
+    top_neighbour_rank = nprocs - 1;
+  }
+
+  if (rank != nprocs - 1) {
+    bottom_neighbour_rank = rank + 1;
+  }
+  else {
+    bottom_neighbour_rank = 0;
+  }
+
+  if (normal_work >= 2) {
+    accelerate_rank = nprocs - 1;
+    accelerate_jj = work - 1;
+  }
+  else {
+    accelerate_rank = nprocs - 2;
+    accelerate_jj = work;
   }
 
   /* if (rank == 0) {
@@ -423,61 +456,17 @@ void initialise_buffers(const t_param params, t_speed_soa* global_cells, t_speed
 }
 
 inline float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_speed_soa* restrict tmp_cells, int* obstacles, int rank, int nprocs, int work, int start, int end) {
-  /* int r = params.ny % nprocs; //remainder
-  int normal_work = params.ny / nprocs;
-
-  int work; //number of rows this rank will do
-  int start;
-  int end;
-  if (rank < r) {
-    work = params.ny / nprocs + 1;
-    start = rank * work;
-    end = start + work;
-  }
-  else {
-    work = params.ny / nprocs;
-    start = rank * work + r;
-    end = start + work;
-  } */
-  int normal_work = params.ny / nprocs;
   //Exchange halo regions
   int tag = 0;
   MPI_Status status;
-  
-  int top_neighbour_rank;
-  int bottom_neighbour_rank;
-  
-  if (rank != 0) {
-    top_neighbour_rank = rank - 1;
-  }
-  else {
-    top_neighbour_rank = nprocs - 1;
-  }
-
-  if (rank != nprocs - 1) {
-    bottom_neighbour_rank = rank + 1;
-  }
-  else {
-    bottom_neighbour_rank = 0;
-  }
 
   /* compute weighting factors */
   float w1 = params.density * params.accel / 9.f;
   float w2 = params.density * params.accel / 36.f;
 
     /* modify the 2nd row of the grid */
-  //int jj = params.ny - 2;  
-  int accelerate_rank;
-  int jj;
-  if (normal_work >= 2) {
-    accelerate_rank = nprocs - 1;
-    jj = work - 1;
-  }
-  else {
-    accelerate_rank = nprocs - 2;
-    jj = work;
-  }
 
+  int jj = accelerate_jj;
   
   if (rank == accelerate_rank) {
     __assume_aligned(cells->speed0, 64);
@@ -1093,44 +1082,9 @@ inline float timestep_mpi(const t_param params, t_speed_soa* restrict cells, t_s
 }
 
 inline float timestep_mpi_2(const t_param params, t_speed_soa* restrict cells, t_speed_soa* restrict tmp_cells, int* obstacles, int rank, int nprocs, int work, int start, int end) {
-  /* int r = params.ny % nprocs; //remainder
-  
-
-  int work; //number of rows this rank will do
-  int start;
-  int end;
-  if (rank < r) {
-    work = params.ny / nprocs + 1;
-    start = rank * work;
-    end = start + work;
-  }
-  else {
-    work = params.ny / nprocs;
-    start = rank * work + r;
-    end = start + work;
-  } */
-
-  int normal_work = params.ny / nprocs;
   //Exchange halo regions
   int tag = 0;
   MPI_Status status;
-  
-  int top_neighbour_rank;
-  int bottom_neighbour_rank;
-  
-  if (rank != 0) {
-    top_neighbour_rank = rank - 1;
-  }
-  else {
-    top_neighbour_rank = nprocs - 1;
-  }
-
-  if (rank != nprocs - 1) {
-    bottom_neighbour_rank = rank + 1;
-  }
-  else {
-    bottom_neighbour_rank = 0;
-  }
 
   /* compute weighting factors */
   float w1 = params.density * params.accel / 9.f;
@@ -1138,16 +1092,7 @@ inline float timestep_mpi_2(const t_param params, t_speed_soa* restrict cells, t
 
     /* modify the 2nd row of the grid */
   //int jj = params.ny - 2;  
-  int accelerate_rank;
-  int jj;
-  if (normal_work >= 2) {
-    accelerate_rank = nprocs - 1;
-    jj = work - 1;
-  }
-  else {
-    accelerate_rank = nprocs - 2;
-    jj = work;
-  }
+  int jj = accelerate_jj;
 
   
   if (rank == accelerate_rank) {
@@ -1215,13 +1160,12 @@ inline float timestep_mpi_2(const t_param params, t_speed_soa* restrict cells, t
   __assume((params.nx) % 32 == 0);
   __assume((params.nx) % 64 == 0);
 
-  #pragma omp simd
+  /* #pragma omp simd
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed0[i + (work + 1) * params.nx] = recvbuf[i];
-  }
-
-  //memcpy((void*)&cells->speed0[(work + 1) * params.nx], (void*)&recvbuf[0], sizeof(float)*params.nx);
+  } */
+  memcpy((void*)&cells->speed0[(work + 1) * params.nx], (void*)&recvbuf[0], sizeof(float)*params.nx);
 
   sendbuf = &cells->speed1[params.nx]; //top row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, MPI_COMM_WORLD, &status);
@@ -1235,13 +1179,13 @@ inline float timestep_mpi_2(const t_param params, t_speed_soa* restrict cells, t
   __assume((params.nx) % 32 == 0);
   __assume((params.nx) % 64 == 0);
 
-  #pragma omp simd
+/*   #pragma omp simd
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed1[i + (work + 1) * params.nx] = recvbuf[i];
   }
-
-  //memcpy((void*)&cells->speed1[(work + 1) * params.nx], (void*)&recvbuf[0], sizeof(float)*params.nx);
+ */
+  memcpy((void*)&cells->speed1[(work + 1) * params.nx], (void*)&recvbuf[0], sizeof(float)*params.nx);
 
   sendbuf = &cells->speed2[params.nx]; //top row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, MPI_COMM_WORLD, &status);
@@ -1253,12 +1197,12 @@ inline float timestep_mpi_2(const t_param params, t_speed_soa* restrict cells, t
   __assume((params.nx) % 32 == 0);
   __assume((params.nx) % 64 == 0);
 
-  #pragma omp simd
+  /* #pragma omp simd
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed2[i + (work + 1) * params.nx] = recvbuf[i];
-  }
-  //memcpy((void*)&cells->speed2[(work + 1) * params.nx], (void*)&recvbuf[0], sizeof(float)*params.nx);
+  } */
+  memcpy((void*)&cells->speed2[(work + 1) * params.nx], (void*)&recvbuf[0], sizeof(float)*params.nx);
 
   sendbuf = &cells->speed3[params.nx]; //top row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, MPI_COMM_WORLD, &status);
@@ -1270,12 +1214,12 @@ inline float timestep_mpi_2(const t_param params, t_speed_soa* restrict cells, t
   __assume((params.nx) % 32 == 0);
   __assume((params.nx) % 64 == 0);
 
-  #pragma omp simd
+  /* #pragma omp simd
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed3[i + (work + 1) * params.nx] = recvbuf[i];
-  }
-  //memcpy((void*)&cells->speed3[(work + 1) * params.nx], (void*)&recvbuf[0], sizeof(float)*params.nx);
+  } */
+  memcpy((void*)&cells->speed3[(work + 1) * params.nx], (void*)&recvbuf[0], sizeof(float)*params.nx);
 
   sendbuf = &cells->speed4[params.nx]; //top row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, MPI_COMM_WORLD, &status);
@@ -1287,12 +1231,12 @@ inline float timestep_mpi_2(const t_param params, t_speed_soa* restrict cells, t
   __assume((params.nx) % 32 == 0);
   __assume((params.nx) % 64 == 0);
 
-  #pragma omp simd
+  /* #pragma omp simd
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed4[i + (work + 1) * params.nx] = recvbuf[i];
-  }
-  //memcpy((void*)&cells->speed4[(work + 1) * params.nx], (void*)&recvbuf[0], sizeof(float)*params.nx);
+  } */
+  memcpy((void*)&cells->speed4[(work + 1) * params.nx], (void*)&recvbuf[0], sizeof(float)*params.nx);
 
   sendbuf = &cells->speed5[params.nx]; //top row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, MPI_COMM_WORLD, &status);
@@ -1304,12 +1248,12 @@ inline float timestep_mpi_2(const t_param params, t_speed_soa* restrict cells, t
   __assume((params.nx) % 32 == 0);
   __assume((params.nx) % 64 == 0);
 
-  #pragma omp simd
+  /* #pragma omp simd
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed5[i + (work + 1) * params.nx] = recvbuf[i];
-  }
-  //memcpy((void*)&cells->speed5[(work + 1) * params.nx], (void*)&recvbuf[0], sizeof(float)*params.nx);
+  } */
+  memcpy((void*)&cells->speed5[(work + 1) * params.nx], (void*)&recvbuf[0], sizeof(float)*params.nx);
 
   sendbuf = &cells->speed6[params.nx]; //top row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, MPI_COMM_WORLD, &status);
@@ -1321,12 +1265,12 @@ inline float timestep_mpi_2(const t_param params, t_speed_soa* restrict cells, t
   __assume((params.nx) % 32 == 0);
   __assume((params.nx) % 64 == 0);
 
-  #pragma omp simd
+  /* #pragma omp simd
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed6[i + (work + 1) * params.nx] = recvbuf[i];
-  }
-  //memcpy((void*)&cells->speed6[(work + 1) * params.nx], (void*)&recvbuf[0], sizeof(float)*params.nx);
+  } */
+  memcpy((void*)&cells->speed6[(work + 1) * params.nx], (void*)&recvbuf[0], sizeof(float)*params.nx);
 
   sendbuf = &cells->speed7[params.nx]; //top row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, MPI_COMM_WORLD, &status);
@@ -1338,13 +1282,13 @@ inline float timestep_mpi_2(const t_param params, t_speed_soa* restrict cells, t
   __assume((params.nx) % 32 == 0);
   __assume((params.nx) % 64 == 0);
 
-  #pragma omp simd
+  /* #pragma omp simd
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed7[i + (work + 1) * params.nx] = recvbuf[i];
-  }
+  } */
 
-  //memcpy((void*)&cells->speed7[(work + 1) * params.nx], (void*)&recvbuf[0], sizeof(float)*params.nx);
+  memcpy((void*)&cells->speed7[(work + 1) * params.nx], (void*)&recvbuf[0], sizeof(float)*params.nx);
 
   sendbuf = &cells->speed8[params.nx]; //top row
   MPI_Sendrecv(sendbuf, params.nx, MPI_FLOAT, top_neighbour_rank, tag, recvbuf, params.nx, MPI_FLOAT, bottom_neighbour_rank, tag, MPI_COMM_WORLD, &status);
@@ -1356,12 +1300,12 @@ inline float timestep_mpi_2(const t_param params, t_speed_soa* restrict cells, t
   __assume((params.nx) % 32 == 0);
   __assume((params.nx) % 64 == 0);
 
-  #pragma omp simd
+  /* #pragma omp simd
   for (size_t i = 0; i < params.nx; i++)
   {
     cells->speed8[i + (work + 1) * params.nx] = recvbuf[i];
-  }
-  //memcpy((void*)&cells->speed8[(work + 1) * params.nx], (void*)&recvbuf[0], sizeof(float)*params.nx);
+  } */
+  memcpy((void*)&cells->speed8[(work + 1) * params.nx], (void*)&recvbuf[0], sizeof(float)*params.nx);
 
   //Send to bottom and receive from top
   sendbuf = &cells->speed0[work * params.nx]; //bottom row
@@ -1670,7 +1614,7 @@ inline float timestep_mpi_2(const t_param params, t_speed_soa* restrict cells, t
 
 
       /* local density total */
-      local_density = 0.f;
+      /* local_density = 0.f;
 
       local_density += tmp_cells->speed0[ii + jj*params.nx];
       local_density += tmp_cells->speed1[ii + jj*params.nx];
@@ -1680,24 +1624,24 @@ inline float timestep_mpi_2(const t_param params, t_speed_soa* restrict cells, t
       local_density += tmp_cells->speed5[ii + jj*params.nx];
       local_density += tmp_cells->speed6[ii + jj*params.nx];
       local_density += tmp_cells->speed7[ii + jj*params.nx];
-      local_density += tmp_cells->speed8[ii + jj*params.nx];
+      local_density += tmp_cells->speed8[ii + jj*params.nx]; */
 
       /* x-component of velocity */
-      u_x = (tmp_cells->speed1[ii + jj*params.nx]
+      /* u_x = (tmp_cells->speed1[ii + jj*params.nx]
                     + tmp_cells->speed5[ii + jj*params.nx]
                     + tmp_cells->speed8[ii + jj*params.nx]
                     - (tmp_cells->speed3[ii + jj*params.nx]
                         + tmp_cells->speed6[ii + jj*params.nx]
                         + tmp_cells->speed7[ii + jj*params.nx]))
-                    / local_density;
+                    / local_density; */
       /* compute y velocity component */
-      u_y = (tmp_cells->speed2[ii + jj*params.nx]
+      /* u_y = (tmp_cells->speed2[ii + jj*params.nx]
                     + tmp_cells->speed5[ii + jj*params.nx]
                     + tmp_cells->speed6[ii + jj*params.nx]
                     - (tmp_cells->speed4[ii + jj*params.nx]
                         + tmp_cells->speed7[ii + jj*params.nx]
                         + tmp_cells->speed8[ii + jj*params.nx]))
-                    / local_density;
+                    / local_density; */
       /* accumulate the norm of x- and y- velocity components */
       tot_u += sqrtf((u_x * u_x) + (u_y * u_y));
       /* increase counter of inspected cells */
@@ -1894,7 +1838,7 @@ inline float timestep_mpi_2(const t_param params, t_speed_soa* restrict cells, t
 
 
         /* local density total */
-        local_density = 0.f;
+        /* local_density = 0.f;
 
         local_density += tmp_cells->speed0[ii + jj*params.nx];
         local_density += tmp_cells->speed1[ii + jj*params.nx];
@@ -1904,24 +1848,24 @@ inline float timestep_mpi_2(const t_param params, t_speed_soa* restrict cells, t
         local_density += tmp_cells->speed5[ii + jj*params.nx];
         local_density += tmp_cells->speed6[ii + jj*params.nx];
         local_density += tmp_cells->speed7[ii + jj*params.nx];
-        local_density += tmp_cells->speed8[ii + jj*params.nx];
+        local_density += tmp_cells->speed8[ii + jj*params.nx]; */
 
         /* x-component of velocity */
-        u_x = (tmp_cells->speed1[ii + jj*params.nx]
+        /* u_x = (tmp_cells->speed1[ii + jj*params.nx]
                       + tmp_cells->speed5[ii + jj*params.nx]
                       + tmp_cells->speed8[ii + jj*params.nx]
                       - (tmp_cells->speed3[ii + jj*params.nx]
                           + tmp_cells->speed6[ii + jj*params.nx]
                           + tmp_cells->speed7[ii + jj*params.nx]))
-                      / local_density;
+                      / local_density; */
         /* compute y velocity component */
-        u_y = (tmp_cells->speed2[ii + jj*params.nx]
+        /* u_y = (tmp_cells->speed2[ii + jj*params.nx]
                       + tmp_cells->speed5[ii + jj*params.nx]
                       + tmp_cells->speed6[ii + jj*params.nx]
                       - (tmp_cells->speed4[ii + jj*params.nx]
                           + tmp_cells->speed7[ii + jj*params.nx]
                           + tmp_cells->speed8[ii + jj*params.nx]))
-                      / local_density;
+                      / local_density; */
         /* accumulate the norm of x- and y- velocity components */
         tot_u += sqrtf((u_x * u_x) + (u_y * u_y));
         /* increase counter of inspected cells */
@@ -2066,7 +2010,7 @@ inline float timestep_mpi_2(const t_param params, t_speed_soa* restrict cells, t
 
 
       /* local density total */
-      local_density = 0.f;
+      /* local_density = 0.f;
 
       local_density += tmp_cells->speed0[ii + jj*params.nx];
       local_density += tmp_cells->speed1[ii + jj*params.nx];
@@ -2077,23 +2021,23 @@ inline float timestep_mpi_2(const t_param params, t_speed_soa* restrict cells, t
       local_density += tmp_cells->speed6[ii + jj*params.nx];
       local_density += tmp_cells->speed7[ii + jj*params.nx];
       local_density += tmp_cells->speed8[ii + jj*params.nx];
-
+ */
       /* x-component of velocity */
-      u_x = (tmp_cells->speed1[ii + jj*params.nx]
+      /* u_x = (tmp_cells->speed1[ii + jj*params.nx]
                     + tmp_cells->speed5[ii + jj*params.nx]
                     + tmp_cells->speed8[ii + jj*params.nx]
                     - (tmp_cells->speed3[ii + jj*params.nx]
                         + tmp_cells->speed6[ii + jj*params.nx]
                         + tmp_cells->speed7[ii + jj*params.nx]))
-                    / local_density;
+                    / local_density; */
       /* compute y velocity component */
-      u_y = (tmp_cells->speed2[ii + jj*params.nx]
+      /* u_y = (tmp_cells->speed2[ii + jj*params.nx]
                     + tmp_cells->speed5[ii + jj*params.nx]
                     + tmp_cells->speed6[ii + jj*params.nx]
                     - (tmp_cells->speed4[ii + jj*params.nx]
                         + tmp_cells->speed7[ii + jj*params.nx]
                         + tmp_cells->speed8[ii + jj*params.nx]))
-                    / local_density;
+                    / local_density; */
       /* accumulate the norm of x- and y- velocity components */
       tot_u += sqrtf((u_x * u_x) + (u_y * u_y));
       /* increase counter of inspected cells */
@@ -2117,28 +2061,10 @@ inline float timestep_mpi_2(const t_param params, t_speed_soa* restrict cells, t
   return global_tot_u/(float)global_tot_cells;
 }
 
-float timestep_mpi_3(const t_param params, t_speed_soa* restrict cells, t_speed_soa* restrict tmp_cells, int* obstacles, int rank, int nprocs, int work, int start, int end) {
-  int normal_work = params.ny / nprocs;
+inline float timestep_mpi_3(const t_param params, t_speed_soa* restrict cells, t_speed_soa* restrict tmp_cells, int* obstacles, int rank, int nprocs, int work, int start, int end) {
   //Exchange halo regions
   int tag = 0;
   MPI_Status status;
-  
-  int top_neighbour_rank;
-  int bottom_neighbour_rank;
-  
-  if (rank != 0) {
-    top_neighbour_rank = rank - 1;
-  }
-  else {
-    top_neighbour_rank = nprocs - 1;
-  }
-
-  if (rank != nprocs - 1) {
-    bottom_neighbour_rank = rank + 1;
-  }
-  else {
-    bottom_neighbour_rank = 0;
-  }
 
   /* compute weighting factors */
   float w1 = params.density * params.accel / 9.f;
@@ -2146,16 +2072,7 @@ float timestep_mpi_3(const t_param params, t_speed_soa* restrict cells, t_speed_
 
     /* modify the 2nd row of the grid */
   //int jj = params.ny - 2;  
-  int accelerate_rank;
-  int jj;
-  if (normal_work >= 2) {
-    accelerate_rank = nprocs - 1;
-    jj = work - 1;
-  }
-  else {
-    accelerate_rank = nprocs - 2;
-    jj = work;
-  }
+  int jj = accelerate_jj;
 
   
   if (rank == accelerate_rank) {
@@ -2485,7 +2402,7 @@ float timestep_mpi_3(const t_param params, t_speed_soa* restrict cells, t_speed_
 
 
         /* local density total */
-        local_density = 0.f;
+        /* local_density = 0.f;
 
         local_density += tmp_cells->speed0[ii + jj*params.nx];
         local_density += tmp_cells->speed1[ii + jj*params.nx];
@@ -2495,24 +2412,24 @@ float timestep_mpi_3(const t_param params, t_speed_soa* restrict cells, t_speed_
         local_density += tmp_cells->speed5[ii + jj*params.nx];
         local_density += tmp_cells->speed6[ii + jj*params.nx];
         local_density += tmp_cells->speed7[ii + jj*params.nx];
-        local_density += tmp_cells->speed8[ii + jj*params.nx];
+        local_density += tmp_cells->speed8[ii + jj*params.nx]; */
 
         /* x-component of velocity */
-        u_x = (tmp_cells->speed1[ii + jj*params.nx]
+        /* u_x = (tmp_cells->speed1[ii + jj*params.nx]
                       + tmp_cells->speed5[ii + jj*params.nx]
                       + tmp_cells->speed8[ii + jj*params.nx]
                       - (tmp_cells->speed3[ii + jj*params.nx]
                           + tmp_cells->speed6[ii + jj*params.nx]
                           + tmp_cells->speed7[ii + jj*params.nx]))
-                      / local_density;
+                      / local_density; */
         /* compute y velocity component */
-        u_y = (tmp_cells->speed2[ii + jj*params.nx]
+        /* u_y = (tmp_cells->speed2[ii + jj*params.nx]
                       + tmp_cells->speed5[ii + jj*params.nx]
                       + tmp_cells->speed6[ii + jj*params.nx]
                       - (tmp_cells->speed4[ii + jj*params.nx]
                           + tmp_cells->speed7[ii + jj*params.nx]
                           + tmp_cells->speed8[ii + jj*params.nx]))
-                      / local_density;
+                      / local_density; */
         /* accumulate the norm of x- and y- velocity components */
         tot_u += sqrtf((u_x * u_x) + (u_y * u_y));
         /* increase counter of inspected cells */
@@ -5314,29 +5231,23 @@ int initialise(const char* paramfile, const char* obstaclefile,
   } */
 
   int r = params->ny % nprocs; //remainder
-  int numrows; //number of rows this rank will do
-  int start;
-  int end;
+  int work;
   if (rank < r) {
-    numrows = params->ny / nprocs + 1;
-    start = rank * numrows;
-    end = start + numrows;
+    work = params->ny / nprocs + 1;
   }
   else {
-    numrows = params->ny / nprocs;
-    start = rank * numrows + r;
-    end = start + numrows;
+    work = params->ny / nprocs;
   }
 
-  cells_ptr->speed0 = (float*)_mm_malloc(sizeof(float) * ((numrows + 2) * params->nx), 64);
-  cells_ptr->speed1 = (float*)_mm_malloc(sizeof(float) * ((numrows + 2) * params->nx), 64);
-  cells_ptr->speed2 = (float*)_mm_malloc(sizeof(float) * ((numrows + 2) * params->nx), 64);
-  cells_ptr->speed3 = (float*)_mm_malloc(sizeof(float) * ((numrows + 2) * params->nx), 64);
-  cells_ptr->speed4 = (float*)_mm_malloc(sizeof(float) * ((numrows + 2) * params->nx), 64);
-  cells_ptr->speed5 = (float*)_mm_malloc(sizeof(float) * ((numrows + 2) * params->nx), 64);
-  cells_ptr->speed6 = (float*)_mm_malloc(sizeof(float) * ((numrows + 2) * params->nx), 64);
-  cells_ptr->speed7 = (float*)_mm_malloc(sizeof(float) * ((numrows + 2) * params->nx), 64);
-  cells_ptr->speed8 = (float*)_mm_malloc(sizeof(float) * ((numrows + 2) * params->nx), 64);
+  cells_ptr->speed0 = (float*)_mm_malloc(sizeof(float) * ((work + 2) * params->nx), 64);
+  cells_ptr->speed1 = (float*)_mm_malloc(sizeof(float) * ((work + 2) * params->nx), 64);
+  cells_ptr->speed2 = (float*)_mm_malloc(sizeof(float) * ((work + 2) * params->nx), 64);
+  cells_ptr->speed3 = (float*)_mm_malloc(sizeof(float) * ((work + 2) * params->nx), 64);
+  cells_ptr->speed4 = (float*)_mm_malloc(sizeof(float) * ((work + 2) * params->nx), 64);
+  cells_ptr->speed5 = (float*)_mm_malloc(sizeof(float) * ((work + 2) * params->nx), 64);
+  cells_ptr->speed6 = (float*)_mm_malloc(sizeof(float) * ((work + 2) * params->nx), 64);
+  cells_ptr->speed7 = (float*)_mm_malloc(sizeof(float) * ((work + 2) * params->nx), 64);
+  cells_ptr->speed8 = (float*)_mm_malloc(sizeof(float) * ((work + 2) * params->nx), 64);
   
   /* 'helper' grid, used as scratch space */
   //*tmp_cells_ptr = (t_speed*)malloc(sizeof(t_speed) * (params->ny * params->nx));
@@ -5349,15 +5260,15 @@ int initialise(const char* paramfile, const char* obstaclefile,
     if (tmp_cells_ptr->speeds[i] == NULL) die("cannot allocate memory for cells", __LINE__, __FILE__);
   } */
 
-  tmp_cells_ptr->speed0 = (float*)_mm_malloc(sizeof(float) * ((numrows + 2) * params->nx), 64);
-  tmp_cells_ptr->speed1 = (float*)_mm_malloc(sizeof(float) * ((numrows + 2) * params->nx), 64);
-  tmp_cells_ptr->speed2 = (float*)_mm_malloc(sizeof(float) * ((numrows + 2) * params->nx), 64);
-  tmp_cells_ptr->speed3 = (float*)_mm_malloc(sizeof(float) * ((numrows + 2) * params->nx), 64);
-  tmp_cells_ptr->speed4 = (float*)_mm_malloc(sizeof(float) * ((numrows + 2) * params->nx), 64);
-  tmp_cells_ptr->speed5 = (float*)_mm_malloc(sizeof(float) * ((numrows + 2) * params->nx), 64);
-  tmp_cells_ptr->speed6 = (float*)_mm_malloc(sizeof(float) * ((numrows + 2) * params->nx), 64);
-  tmp_cells_ptr->speed7 = (float*)_mm_malloc(sizeof(float) * ((numrows + 2) * params->nx), 64);
-  tmp_cells_ptr->speed8 = (float*)_mm_malloc(sizeof(float) * ((numrows + 2) * params->nx), 64);
+  tmp_cells_ptr->speed0 = (float*)_mm_malloc(sizeof(float) * ((work + 2) * params->nx), 64);
+  tmp_cells_ptr->speed1 = (float*)_mm_malloc(sizeof(float) * ((work + 2) * params->nx), 64);
+  tmp_cells_ptr->speed2 = (float*)_mm_malloc(sizeof(float) * ((work + 2) * params->nx), 64);
+  tmp_cells_ptr->speed3 = (float*)_mm_malloc(sizeof(float) * ((work + 2) * params->nx), 64);
+  tmp_cells_ptr->speed4 = (float*)_mm_malloc(sizeof(float) * ((work + 2) * params->nx), 64);
+  tmp_cells_ptr->speed5 = (float*)_mm_malloc(sizeof(float) * ((work + 2) * params->nx), 64);
+  tmp_cells_ptr->speed6 = (float*)_mm_malloc(sizeof(float) * ((work + 2) * params->nx), 64);
+  tmp_cells_ptr->speed7 = (float*)_mm_malloc(sizeof(float) * ((work + 2) * params->nx), 64);
+  tmp_cells_ptr->speed8 = (float*)_mm_malloc(sizeof(float) * ((work + 2) * params->nx), 64);
 
   /* the map of obstacles */
   *obstacles_ptr = malloc(sizeof(int) * (params->ny * params->nx));
@@ -5369,7 +5280,7 @@ int initialise(const char* paramfile, const char* obstaclefile,
   float w1 = params->density      / 9.f;
   float w2 = params->density      / 36.f;
 
-  for (int jj = 1; jj < numrows+1; jj++) //adjust for halo regions
+  for (int jj = 1; jj < work+1; jj++) //adjust for halo regions
   {
     for (int ii = 0; ii < params->nx; ii++)
     {

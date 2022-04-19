@@ -9,6 +9,7 @@
 #SBATCH --reservation=COSC026662
 #SBATCH --account=COSC026662
 #SBATCH --output d2q9-bgk.out
+#SBATCH --exclude compute100
 
 echo Running on host `hostname`
 echo Time is `date`
