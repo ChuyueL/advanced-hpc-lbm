@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="utf-8"?>
+<log version="1.0" tool="runtool">
+
+<msg id="1" tool="runtool">
+  <type>log-start</type>
+  <arg>2022/04/22 23:45:02</arg>
+</msg>
+<msg id="2" tool="runtool">
+  <type>collector-starts</type>
+</msg>
+<msg id="3" tool="runtool">
+  <type>marker-file</type>
+  <arg>/user/home/fk19833/advanced-hpc-lbm/advisor/rank.84/trc000/trc000.advixe</arg>
+</msg>
+<msg id="4" tool="trc">
+  <type>PROCESS_START</type>
+  <arg>/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk</arg>
+  <arg>20560</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:18 2022</timestamp>
+</msg>
+<msg id="5" tool="trc">
+  <type>PROCESS_ANALYSIS_MODE</type>
+  <arg>full</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:18 2022</timestamp>
+</msg>
+<msg id="6" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk</arg>
+  <arg>0x400000</arg>
+  <arg>0x6214bf</arg>
+  <arg>yes</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:18 2022</timestamp>
+</msg>
+<msg id="7" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/lib64/ld-linux-x86-64.so.2</arg>
+  <arg>0x2b05163f5000</arg>
+  <arg>0x2b051661814f</arg>
+  <arg>yes</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:18 2022</timestamp>
+</msg>
+<msg id="8" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>[vdso]</arg>
+  <arg>0x7ffd948ce000</arg>
+  <arg>0x7ffd948cee6c</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:18 2022</timestamp>
+</msg>
+<msg id="9" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/lib64/libm.so.6</arg>
+  <arg>0x2b052c02e000</arg>
+  <arg>0x2b052c32f137</arg>
+  <arg>yes</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:18 2022</timestamp>
+</msg>
+<msg id="10" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/intel/intel-parallel_studio_xe_2020_u4/compilers_and_libraries_2020.4.304/linux/mpi/intel64/lib/libmpifort.so.12</arg>
+  <arg>0x2b052c34b000</arg>
+  <arg>0x2b052c708817</arg>
+  <arg>yes</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:18 2022</timestamp>
+</msg>
+<msg id="11" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/intel/intel-parallel_studio_xe_2020_u4/compilers_and_libraries_2020.4.304/linux/mpi/intel64/lib/release/libmpi.so.12</arg>
+  <arg>0x2b052c714000</arg>
+  <arg>0x2b052da73217</arg>
+  <arg>yes</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:18 2022</timestamp>
+</msg>
+<msg id="12" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/lib64/libdl.so.2</arg>
+  <arg>0x2b052da78000</arg>
+  <arg>0x2b052dc7b12f</arg>
+  <arg>yes</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:18 2022</timestamp>
+</msg>
+<msg id="13" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/lib64/librt.so.1</arg>
+  <arg>0x2b052dc7c000</arg>
+  <arg>0x2b052de83c37</arg>
+  <arg>yes</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:18 2022</timestamp>
+</msg>
+<msg id="14" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/lib64/libpthread.so.0</arg>
+  <arg>0x2b052de84000</arg>
+  <arg>0x2b052e09f487</arg>
+  <arg>yes</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:18 2022</timestamp>
+</msg>
+<msg id="15" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/gcc-9.3/lib64/libgcc_s.so.1</arg>
+  <arg>0x2b052e0a0000</arg>
+  <arg>0x2b052e2b744f</arg>
+  <arg>yes</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:18 2022</timestamp>
+</msg>
+<msg id="16" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/lib64/libc.so.6</arg>
+  <arg>0x2b052e2b8000</arg>
+  <arg>0x2b052e6851ff</arg>
+  <arg>yes</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:18 2022</timestamp>
+</msg>
+<msg id="17" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/intel/intel-parallel_studio_xe_2020_u4/compilers_and_libraries_2020.4.304/linux/mpi/intel64/libfabric/lib/libfabric.so.1</arg>
+  <arg>0x2b052e696000</arg>
+  <arg>0x2b052e8d7777</arg>
+  <arg>yes</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:18 2022</timestamp>
+</msg>
+<msg id="18" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/lib64/libnuma.so.1</arg>
+  <arg>0x2b0530394000</arg>
+  <arg>0x2b053059f8bf</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:21 2022</timestamp>
+</msg>
+<msg id="19" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/intel/intel-parallel_studio_xe_2020_u4/compilers_and_libraries_2020.4.304/linux/mpi/intel64/libfabric/lib/prov/libsockets-fi.so</arg>
+  <arg>0x2b062b786000</arg>
+  <arg>0x2b062b9dae57</arg>
+  <arg>yes</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:22 2022</timestamp>
+</msg>
+<msg id="20" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/intel/intel-parallel_studio_xe_2020_u4/compilers_and_libraries_2020.4.304/linux/mpi/intel64/libfabric/lib/prov/libpsmx2-fi.so</arg>
+  <arg>0x2b062ba43000</arg>
+  <arg>0x2b062bcbb837</arg>
+  <arg>yes</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:22 2022</timestamp>
+</msg>
+<msg id="21" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/lib64/libpsm2.so.2</arg>
+  <arg>0x2b062bcbc000</arg>
+  <arg>0x2b062bf4fcf7</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:22 2022</timestamp>
+</msg>
+<msg id="22" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/intel/intel-parallel_studio_xe_2020_u4/compilers_and_libraries_2020.4.304/linux/mpi/intel64/libfabric/lib/prov/librxm-fi.so</arg>
+  <arg>0x2b062c605000</arg>
+  <arg>0x2b062c852b57</arg>
+  <arg>yes</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:22 2022</timestamp>
+</msg>
+<msg id="23" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/intel/intel-parallel_studio_xe_2020_u4/compilers_and_libraries_2020.4.304/linux/mpi/intel64/libfabric/lib/prov/libtcp-fi.so</arg>
+  <arg>0x2b062c90a000</arg>
+  <arg>0x2b062cb466d7</arg>
+  <arg>yes</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:22 2022</timestamp>
+</msg>
+<msg id="24" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/intel/intel-parallel_studio_xe_2020_u4/compilers_and_libraries_2020.4.304/linux/mpi/intel64/libfabric/lib/prov/libshm-fi.so</arg>
+  <arg>0x2b062cc19000</arg>
+  <arg>0x2b062ce57837</arg>
+  <arg>yes</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:22 2022</timestamp>
+</msg>
+<msg id="25" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/intel/intel-parallel_studio_xe_2020_u4/compilers_and_libraries_2020.4.304/linux/mpi/intel64/libfabric/lib/prov/libverbs-fi.so</arg>
+  <arg>0x2b062cf78000</arg>
+  <arg>0x2b062d1c7e57</arg>
+  <arg>yes</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="26" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/lib64/librdmacm.so.1</arg>
+  <arg>0x2b062d1da000</arg>
+  <arg>0x2b062d3f0267</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="27" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/lib64/libibverbs.so.1</arg>
+  <arg>0x2b062d3f1000</arg>
+  <arg>0x2b062d60966f</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="28" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/lib64/libnl-route-3.so.200</arg>
+  <arg>0x2b062d60a000</arg>
+  <arg>0x2b062d8765bf</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="29" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/lib64/libnl-3.so.200</arg>
+  <arg>0x2b062d877000</arg>
+  <arg>0x2b062da978c7</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="30" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libbnxt_re-rdmav22.so</arg>
+  <arg>0x2b062dcd1000</arg>
+  <arg>0x2b062ded717f</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="31" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libcxgb3-rdmav22.so</arg>
+  <arg>0x2b062dee6000</arg>
+  <arg>0x2b062e0ec177</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="32" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libcxgb4-rdmav22.so</arg>
+  <arg>0x2b062e0f4000</arg>
+  <arg>0x2b062e2fe1ef</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="33" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libhfi1verbs-rdmav22.so</arg>
+  <arg>0x2b062e315000</arg>
+  <arg>0x2b062e51914f</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="34" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libhns-rdmav22.so</arg>
+  <arg>0x2b062e51a000</arg>
+  <arg>0x2b062e72218f</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="35" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libi40iw-rdmav22.so</arg>
+  <arg>0x2b062e735000</arg>
+  <arg>0x2b062e93c137</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="36" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libipathverbs-rdmav22.so</arg>
+  <arg>0x2b062e945000</arg>
+  <arg>0x2b062eb4914f</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="37" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libmlx4-rdmav22.so</arg>
+  <arg>0x2b062eb4a000</arg>
+  <arg>0x2b062ed55237</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="38" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libmlx5-rdmav22.so</arg>
+  <arg>0x2b062ed70000</arg>
+  <arg>0x2b062ef973b7</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="39" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libmthca-rdmav22.so</arg>
+  <arg>0x2b062efea000</arg>
+  <arg>0x2b062f1f217f</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="40" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libnes-rdmav22.so</arg>
+  <arg>0x2b062f1f3000</arg>
+  <arg>0x2b062f3f9167</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="41" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libocrdma-rdmav22.so</arg>
+  <arg>0x2b062f3fa000</arg>
+  <arg>0x2b062f60017f</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="42" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libqedr-rdmav22.so</arg>
+  <arg>0x2b062f601000</arg>
+  <arg>0x2b062f80a19f</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="43" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/librxe-rdmav22.so</arg>
+  <arg>0x2b062f815000</arg>
+  <arg>0x2b062fa1916f</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="44" tool="trc">
+  <type>LOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libvmw_pvrdma-rdmav22.so</arg>
+  <arg>0x2b062fa1a000</arg>
+  <arg>0x2b062fc1f16f</arg>
+  <arg>no</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:23 2022</timestamp>
+</msg>
+<msg id="45" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/intel/intel-parallel_studio_xe_2020_u4/compilers_and_libraries_2020.4.304/linux/mpi/intel64/libfabric/lib/prov/libpsmx2-fi.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="46" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/lib64/libpsm2.so.2</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="47" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/intel/intel-parallel_studio_xe_2020_u4/compilers_and_libraries_2020.4.304/linux/mpi/intel64/libfabric/lib/prov/librxm-fi.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="48" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/intel/intel-parallel_studio_xe_2020_u4/compilers_and_libraries_2020.4.304/linux/mpi/intel64/libfabric/lib/prov/libverbs-fi.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="49" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/intel/intel-parallel_studio_xe_2020_u4/compilers_and_libraries_2020.4.304/linux/mpi/intel64/libfabric/lib/prov/libtcp-fi.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="50" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/intel/intel-parallel_studio_xe_2020_u4/compilers_and_libraries_2020.4.304/linux/mpi/intel64/libfabric/lib/prov/libsockets-fi.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="51" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/intel/intel-parallel_studio_xe_2020_u4/compilers_and_libraries_2020.4.304/linux/mpi/intel64/libfabric/lib/prov/libshm-fi.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="52" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="53" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/lib64/ld-linux-x86-64.so.2</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="54" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>[vdso]</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="55" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/lib64/libm.so.6</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="56" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/intel/intel-parallel_studio_xe_2020_u4/compilers_and_libraries_2020.4.304/linux/mpi/intel64/lib/libmpifort.so.12</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="57" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/intel/intel-parallel_studio_xe_2020_u4/compilers_and_libraries_2020.4.304/linux/mpi/intel64/lib/release/libmpi.so.12</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="58" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/lib64/libdl.so.2</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="59" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/lib64/librt.so.1</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="60" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/lib64/libpthread.so.0</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="61" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/gcc-9.3/lib64/libgcc_s.so.1</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="62" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/lib64/libc.so.6</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="63" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/mnt/storage/software/languages/intel/intel-parallel_studio_xe_2020_u4/compilers_and_libraries_2020.4.304/linux/mpi/intel64/libfabric/lib/libfabric.so.1</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="64" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/lib64/libnuma.so.1</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="65" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/lib64/librdmacm.so.1</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="66" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/lib64/libibverbs.so.1</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="67" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/lib64/libnl-route-3.so.200</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="68" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/lib64/libnl-3.so.200</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="69" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libbnxt_re-rdmav22.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="70" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libcxgb3-rdmav22.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="71" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libcxgb4-rdmav22.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="72" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libhfi1verbs-rdmav22.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="73" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libhns-rdmav22.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="74" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libi40iw-rdmav22.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="75" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libipathverbs-rdmav22.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="76" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libmlx4-rdmav22.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="77" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libmlx5-rdmav22.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="78" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libmthca-rdmav22.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="79" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libnes-rdmav22.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="80" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libocrdma-rdmav22.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="81" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libqedr-rdmav22.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="82" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/librxe-rdmav22.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="83" tool="trc">
+  <type>UNLOAD_MODULE</type>
+  <arg>/usr/lib64/libibverbs/libvmw_pvrdma-rdmav22.so</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="84" tool="trc">
+  <type>PROCESS_FINISH</type>
+  <arg>/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk</arg>
+  <arg>20560</arg>
+  <arg>0x0</arg>
+  <severity>INFO</severity>
+  <timestamp>Fri Apr 22 22:45:45 2022</timestamp>
+</msg>
+<msg id="85" tool="runtool">
+  <type>app-exit-code</type>
+  <arg>0</arg>
+</msg>
+<msg id="86" tool="runtool">
+  <type>marker-file</type>
+  <arg>/user/home/fk19833/advanced-hpc-lbm/advisor/rank.84/trc000/trc000.advixe</arg>
+</msg>
+<msg id="87" tool="runtool">
+  <type>collector-done</type>
+</msg>
+<msg id="88" tool="runtool">
+  <type>log-end</type>
+  <arg>2022/04/22 23:45:49</arg>
+</msg>
+
+</log>
+

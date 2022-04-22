@@ -7,7 +7,7 @@
      <release type="pointer" type_id="dasID_cctrl2::ApplicationWorkload" ptr_type="dasID_cctrl2::IWorkload">
       <workload>
        <targetName type="string">release</targetName>
-       <result_directory.path type="string">/user/home/fk19833/advanced-hpc-lbm/advisor/rank.83/hs002</result_directory.path>
+       <result_directory.path type="string">/user/home/fk19833/advanced-hpc-lbm/advisor/rank.104/hs003</result_directory.path>
        <launch_app.app_to_launch type="string">./d2q9-bgk</launch_app.app_to_launch>
        <launch_app.app_parameters type="string">input_1024x1024.params obstacles_1024x1024.dat</launch_app.app_parameters>
        <context>
@@ -107,4 +107,3 @@
   </target_settings>
  </All_Configurations-All_Platforms>
 </root>
-

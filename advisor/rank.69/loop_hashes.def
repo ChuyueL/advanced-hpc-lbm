@@ -1,11 +1,9 @@
 # hash file version: 3
-1	71	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk	5817	6012	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c	223	195	1cb246c85f057718f168f4df53f35fd0	0	1	0	0	0
-2	51	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk	5383	10097,9988	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c	211	4801	1cb246c85f057718f168f4df53f35fd0	0	1	0	0	0
-3	89	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk	62016	63422	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c	2867	1406	1cb246c85f057718f168f4df53f35fd0	1	1	0	0	0
-4	90	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk	59222	66213	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c	2644	7007	1cb246c85f057718f168f4df53f35fd0	0	1	0	0	0
-5	126	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk	60860	61831	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c	2867	971	1cb246c85f057718f168f4df53f35fd0	0	1	0	0	0
-6	93	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk	96608	96744		0	136	1cb246c85f057718f168f4df53f35fd0	1	1	0	0	0
-7	92	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk	64060	65037	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c	2867	977	1cb246c85f057718f168f4df53f35fd0	0	1	0	0	0
-8	519	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk	60860	61831,63422,65037	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c	2867	3354	1cb246c85f057718f168f4df53f35fd0	1	1	0	0	0
-9	66	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk	55150	55155,55495,55437,55265,55385	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c	5835	119	1cb246c85f057718f168f4df53f35fd0	0	1	0	0	0
-10	70	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk	53114	55385	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c	5673	2525	1cb246c85f057718f168f4df53f35fd0	0	1	0	0	0
+11	47	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk	5817	6012	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c	223	195	bdc865cb9cfcdd46b736b1209c835dd5	0	1	0	0	0
+12	48	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk	5383	10097,9988	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c	211	4801	bdc865cb9cfcdd46b736b1209c835dd5	0	1	0	0	0
+13	50	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk	62016	63422	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c	2867	1406	bdc865cb9cfcdd46b736b1209c835dd5	1	1	0	0	0
+14	51	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk	59222	66213	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c	2644	7007	bdc865cb9cfcdd46b736b1209c835dd5	0	1	0	0	0
+15	52	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk	96608	96744		0	136	bdc865cb9cfcdd46b736b1209c835dd5	1	1	0	0	0
+16	54	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk	64060	65037	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c	2867	977	bdc865cb9cfcdd46b736b1209c835dd5	0	1	0	0	0
+17	56	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk	60860	61831	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c	2867	971	bdc865cb9cfcdd46b736b1209c835dd5	0	1	0	0	0
+18	510	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk	60860	61831,63422,65037	/user/home/fk19833/advanced-hpc-lbm/d2q9-bgk.c	2867	3354	bdc865cb9cfcdd46b736b1209c835dd5	1	1	0	0	0
