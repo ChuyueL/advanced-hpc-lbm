@@ -4,12 +4,13 @@
 #SBATCH --exclusive
 #SBATCH --nodes 4
 #SBATCH --ntasks-per-node 28
-#SBATCH --time 00:01:00
+#SBATCH --time 00:10:00
 #SBATCH --partition veryshort
 #SBATCH --reservation=COSC026662
 #SBATCH --account=COSC026662
 #SBATCH --output d2q9-bgk.out
-#SBATCH --exclude compute100
+#SBATCH --exclude compute[100,101,102,103,104]
+#SBATCH --nodelist compute[105,106,107,109]
 
 echo Running on host `hostname`
 echo Time is `date`
@@ -19,7 +20,8 @@ echo This job runs on the following machines:
 echo `echo $SLURM_JOB_NODELIST | uniq`
 
 #! Run the executable
-srun --mpi=pmi2 ./d2q9-bgk input_128x128.params obstacles_128x128.dat
+#srun --mpi=pmi2 ./d2q9-bgk input_128x128.params obstacles_128x128.dat
 #srun --mpi=pmi2 ./d2q9-bgk input_128x256.params obstacles_128x256.dat
 #srun --mpi=pmi2 ./d2q9-bgk input_256x256.params obstacles_256x256.dat
 #srun --mpi=pmi2 ./d2q9-bgk input_1024x1024.params obstacles_1024x1024.dat
+srun --mpi=pmi2 advixe-cl -collect survey -project-dir ./advisor ./d2q9-bgk input_128x128.params obstacles_128x128.dat
