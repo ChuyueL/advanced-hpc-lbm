@@ -1,9 +1,0 @@
-
-=== Start: [2022/04/24 00:27:50] === 
-Analysis started...
-Result file: /user/home/fk19833/advanced-hpc-lbm/advisor3/rank.2/trc000/trc000.advixe 
-Error: An internal error has occurred. Our apologies for this inconvenience. Please gather a description of the steps leading up to the problem and contact the Intel customer support team.
-Application exit code: 255 
-Result file: /user/home/fk19833/advanced-hpc-lbm/advisor3/rank.2/trc000/trc000.advixe 
-Analysis completed
-=== End: [2022/04/24 00:28:16] === 

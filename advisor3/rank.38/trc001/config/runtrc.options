@@ -1,0 +1,14 @@
+-r
+/user/home/fk19833/advanced-hpc-lbm/advisor3/rank.38/trc001
+-quiet
+-cs-file
+/user/home/fk19833/advanced-hpc-lbm/advisor3/rank.38/callstacks.def
+--cs-mode=no-count-loops,no-count-flops,stl-profiling,stack-stitching
+--count-flops
+--benchmarks=dram,mcdram,cpu_cache,flop_peak,int
+--jit-profiling
+--gpu-collect-traffic
+--
+./d2q9-bgk
+input_1024x1024.params
+obstacles_1024x1024.dat
