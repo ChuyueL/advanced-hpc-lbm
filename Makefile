@@ -3,7 +3,7 @@
 EXE=d2q9-bgk
 
 CC=mpiicc
-CFLAGS= -g -qopt-report=5 -qopt-report-phase=vec -Ofast -xHost -Wall -std=c11
+CFLAGS= -Ofast -xHost -Wall -std=c11
 LIBS = -lm
 
 FINAL_STATE_FILE=./final_state.dat
